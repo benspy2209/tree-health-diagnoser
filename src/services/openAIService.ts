@@ -1,11 +1,16 @@
 
 import { toast } from "@/hooks/use-toast";
 
-// Assurez-vous de remplacer cette valeur par votre clé API dans un environnement
-let OPENAI_API_KEY = "";
+// Clé API définie par défaut pour l'application
+const DEFAULT_API_KEY = "sk-uJ9O8jpS6ZCcdfi-Shy3XyiZU3XkY0wuwFJsgURr9NT3BlbkFJdoqfSOAA0sC83YfM-dj2MTuy3a9NdyxOkv6dSS2_gA";
+
+// Récupérer la clé API du localStorage ou utiliser la clé par défaut
+let OPENAI_API_KEY = localStorage.getItem('openai_api_key') || DEFAULT_API_KEY;
 
 export const setOpenAIApiKey = (apiKey: string) => {
   OPENAI_API_KEY = apiKey;
+  // Sauvegarder la clé dans le localStorage pour la persistance
+  localStorage.setItem('openai_api_key', apiKey);
 };
 
 export const isApiKeySet = () => {

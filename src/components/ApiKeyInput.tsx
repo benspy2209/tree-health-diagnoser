@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { motion } from "framer-motion";
@@ -11,6 +11,14 @@ interface ApiKeyInputProps {
 }
 
 const ApiKeyInput = ({ onKeySet }: ApiKeyInputProps) => {
+  // Vérifier si la clé est déjà définie lors du montage du composant
+  useEffect(() => {
+    if (isApiKeySet()) {
+      // Si la clé est déjà définie, appeler directement onKeySet pour continuer
+      onKeySet();
+    }
+  }, [onKeySet]);
+
   const [apiKey, setApiKey] = useState("");
   
   const handleSubmit = (e: React.FormEvent) => {
@@ -30,6 +38,11 @@ const ApiKeyInput = ({ onKeySet }: ApiKeyInputProps) => {
       });
     }
   };
+
+  // Si la clé est déjà définie, ne pas rendre le composant
+  if (isApiKeySet()) {
+    return null;
+  }
 
   return (
     <motion.div 

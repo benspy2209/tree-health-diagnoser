@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import DiagnosticHeader from "./DiagnosticHeader";
@@ -14,7 +13,6 @@ import { cn } from "@/lib/utils";
 import { generateDiagnostic, isApiKeySet } from "@/services/openAIService";
 import { toast } from "@/hooks/use-toast";
 
-// Questions de diagnostic par défaut
 const defaultQuestions = [
   {
     question: "Où se situe votre arbre ?",
@@ -79,7 +77,6 @@ const DiagnosticContainer = ({ className }: DiagnosticContainerProps) => {
   const handleAnswer = (answer: string) => {
     setAnswers({ ...answers, [step]: answer });
     
-    // Attendre un peu pour l'animation puis avancer à l'étape suivante
     setTimeout(() => {
       setStep(prev => prev + 1);
     }, 500);
@@ -91,26 +88,18 @@ const DiagnosticContainer = ({ className }: DiagnosticContainerProps) => {
   
   const handleNext = async () => {
     if (step === questions.length + 1) { // Si on est à l'étape d'upload d'image
-      if (!isApiKeySet()) {
-        setNeedsApiKey(true);
-        return;
-      }
-      
       setIsAnalyzing(true);
       
       try {
-        // Données à envoyer à l'API OpenAI
         const diagnosticData = {
           answers,
           questions,
           image: uploadedImage
         };
         
-        // Appel de l'API pour générer le diagnostic
         const diagnosis = await generateDiagnostic(diagnosticData);
         setAiDiagnostic(diagnosis);
         
-        // Passer à l'étape de résultats
         setTimeout(() => {
           setIsAnalyzing(false);
           setStep(step + 1);
@@ -146,19 +135,15 @@ const DiagnosticContainer = ({ className }: DiagnosticContainerProps) => {
   };
   
   const renderContent = () => {
-    // Afficher l'écran de saisie de la clé API si nécessaire
     if (needsApiKey) {
       return <ApiKeyInput onKeySet={handleApiKeySet} />;
     }
     
-    // Montrer l'état d'analyse
     if (isAnalyzing) {
       return <AnalyzingState />;
     }
     
-    // Étape de résultat
     if (step === questions.length + 2) {
-      // Si on a un diagnostic de l'IA, l'utiliser
       if (aiDiagnostic) {
         return (
           <DiagnosticResult
@@ -171,9 +156,7 @@ const DiagnosticContainer = ({ className }: DiagnosticContainerProps) => {
         );
       }
       
-      // Sinon, utiliser la logique de diagnostic par défaut
       const determineStatus = () => {
-        // Logique simplifiée pour déterminer le statut (à améliorer avec l'IA)
         const hasProblems = Object.values(answers).some(answer => 
           answer.includes("jaun") || 
           answer.includes("tach") || 
@@ -252,7 +235,6 @@ const DiagnosticContainer = ({ className }: DiagnosticContainerProps) => {
       );
     }
     
-    // Étape d'upload d'image
     if (step === questions.length + 1) {
       return (
         <div className="space-y-6">
@@ -269,7 +251,6 @@ const DiagnosticContainer = ({ className }: DiagnosticContainerProps) => {
       );
     }
     
-    // Étapes de questions
     if (step <= questions.length) {
       const questionData = questions[step - 1];
       return (
@@ -294,7 +275,6 @@ const DiagnosticContainer = ({ className }: DiagnosticContainerProps) => {
           currentStep={step}
           totalSteps={totalSteps}
           setCurrentStep={(newStep) => {
-            // Ne permet de revenir qu'aux étapes déjà visitées
             if (typeof newStep === 'number' && newStep < step) {
               setStep(newStep);
             }
@@ -321,7 +301,6 @@ const DiagnosticContainer = ({ className }: DiagnosticContainerProps) => {
           </motion.div>
         </AnimatePresence>
         
-        {/* Boutons de navigation (sauf pour les états spéciaux) */}
         {!isAnalyzing && !needsApiKey && step !== questions.length + 2 && (
           <motion.div
             initial={{ opacity: 0 }}
@@ -339,7 +318,7 @@ const DiagnosticContainer = ({ className }: DiagnosticContainerProps) => {
               )}
             >
               <ArrowLeft size={16} className="mr-2" />
-              Précédent
+              Pr��cédent
             </Button>
             
             {step > questions.length && (
