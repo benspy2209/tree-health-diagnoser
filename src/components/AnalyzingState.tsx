@@ -1,6 +1,6 @@
 
 import { motion } from "framer-motion";
-import { TreeDeciduousBinary } from "lucide-react";
+import { TreeDeciduous } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface AnalyzingStateProps {
@@ -29,7 +29,7 @@ const AnalyzingState = ({ className }: AnalyzingStateProps) => {
         }}
         className="relative mb-8"
       >
-        <TreeDeciduousBinary size={64} className="text-natural-leaf" />
+        <TreeDeciduous size={64} className="text-natural-leaf" />
         
         {/* Éléments pulsants autour de l'icône */}
         <motion.div

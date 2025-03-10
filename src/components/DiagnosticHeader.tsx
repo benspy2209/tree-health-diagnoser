@@ -1,6 +1,6 @@
 
 import { motion } from "framer-motion";
-import { TreeDeciduousBinary } from "lucide-react";
+import { TreeDeciduous } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface DiagnosticHeaderProps {
@@ -21,7 +21,7 @@ const DiagnosticHeader = ({ className }: DiagnosticHeaderProps) => {
         transition={{ delay: 0.2, duration: 0.5 }}
         className="mb-4"
       >
-        <TreeDeciduousBinary size={48} className="text-natural-leaf" />
+        <TreeDeciduous size={48} className="text-natural-leaf" />
       </motion.div>
       <motion.h1
         initial={{ opacity: 0, y: 10 }}
