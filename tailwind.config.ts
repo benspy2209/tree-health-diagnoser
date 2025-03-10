@@ -74,44 +74,6 @@ export default {
 					ring: 'hsl(var(--sidebar-ring))'
 				}
 			},
-			typography: (theme) => ({
-				DEFAULT: {
-					css: {
-						color: theme('colors.gray.700'),
-						h1: {
-							color: theme('colors.natural.leaf'),
-							fontWeight: '700',
-						},
-						h2: {
-							color: theme('colors.natural.leaf'),
-							fontWeight: '600',
-						},
-						h3: {
-							color: theme('colors.natural.leaf'),
-							fontWeight: '600',
-						},
-						strong: {
-							color: theme('colors.natural.leaf'),
-							fontWeight: '600',
-						},
-						'ul > li': {
-							position: 'relative',
-							paddingLeft: '1.5em',
-						},
-						'ul > li::before': {
-							content: '""',
-							width: '0.5em',
-							height: '0.5em',
-							display: 'block',
-							position: 'absolute',
-							left: 0,
-							top: '0.7em',
-							borderRadius: '50%',
-							backgroundColor: theme('colors.natural.leaf'),
-						},
-					},
-				},
-			}),
 			borderRadius: {
 				lg: 'var(--radius)',
 				md: 'calc(var(--radius) - 2px)',
@@ -162,5 +124,5 @@ export default {
 			}
 		}
 	},
-	plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
+	plugins: [require("tailwindcss-animate")],
 } satisfies Config;

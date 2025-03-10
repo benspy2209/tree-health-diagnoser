@@ -49,38 +49,107 @@ const DiagnosticResult = ({
   // Pour un diagnostic personnalisé (issu de l'API OpenAI), on affiche directement la description
   const isCustomDiagnostic = status === "custom";
 
-  // Parse markdown content
-  const formatMarkdown = (content: string) => {
-    // Replace markdown headers
-    const withHeaders = content.replace(/^(#+)\s+(.+)$/gm, (_, hashes, text) => {
-      const size = hashes.length;
-      const className = size === 1 ? "text-2xl font-bold my-4" : 
-                        size === 2 ? "text-xl font-bold my-3" : 
-                        "text-lg font-bold my-2";
-      return `<h${size} class="${className}">${text}</h${size}>`;
-    });
+  // Cette fonction prend du texte brut et extrait les sections selon le format de l'API OpenAI
+  const formatCustomDiagnostic = (content: string) => {
+    // Séparation du contenu en sections
+    const sections: { [key: string]: JSX.Element[] } = {
+      title: [],
+      analysis: [],
+      diagnosis: [],
+      recommendations: [],
+      nextSteps: [],
+    };
+    
+    let currentSection = "title";
+    
+    // Diviser le contenu en lignes
+    const lines = content.split('\n').filter(line => line.trim() !== '');
+    
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i].trim();
+      
+      // Déterminer la section en fonction des titres habituels
+      if (line.toLowerCase().includes("rapport provisoire")) {
+        sections.title.push(<h1 key={`title-${i}`} className="text-2xl font-bold text-natural-leaf mb-4">{line}</h1>);
+        currentSection = "title";
+      } 
+      else if (line.toLowerCase().includes("analyse de l'arbre")) {
+        sections.analysis.push(<h2 key={`analysis-${i}`} className="text-xl font-semibold text-natural-leaf mt-5 mb-3">{line}</h2>);
+        currentSection = "analysis";
+      } 
+      else if (line.toLowerCase().includes("diagnostic probable")) {
+        sections.diagnosis.push(<h2 key={`diagnosis-${i}`} className="text-xl font-semibold text-natural-leaf mt-5 mb-3">{line}</h2>);
+        currentSection = "diagnosis";
+        // Préparer l'interprétation des bullet points
+      } 
+      else if (line.toLowerCase().includes("recommandations")) {
+        sections.recommendations.push(<h2 key={`recommendations-${i}`} className="text-xl font-semibold text-natural-leaf mt-5 mb-3">{line}</h2>);
+        currentSection = "recommendations";
+      } 
+      else if (line.toLowerCase().includes("prochaine étape")) {
+        sections.nextSteps.push(<h2 key={`nextSteps-${i}`} className="text-xl font-semibold text-natural-leaf mt-5 mb-3">{line}</h2>);
+        currentSection = "nextSteps";
+      } 
+      else {
+        // Traitement des bullet points pour les sections de diagnostic et recommandations
+        if (currentSection === "diagnosis" || currentSection === "recommendations") {
+          if (line.startsWith('*') || line.startsWith('-') || /^\d+\./.test(line)) {
+            // C'est un bullet point, extraire le titre et le contenu
+            const bulletContentMatch = line.match(/^(?:\*|\-|\d+\.)\s*(?:\*\*)?([^:]*?)(?:\*\*)?:?(.*)/);
+            
+            if (bulletContentMatch) {
+              const [, bulletTitle, bulletContent] = bulletContentMatch;
+              
+              sections[currentSection].push(
+                <div key={`bullet-${i}`} className="flex items-start mb-4">
+                  <div className="h-5 w-5 rounded-full bg-natural-leaf/20 flex items-center justify-center mt-1 mr-3">
+                    <div className="h-2.5 w-2.5 rounded-full bg-natural-leaf"></div>
+                  </div>
+                  <div>
+                    <span className="font-medium text-natural-leaf">{bulletTitle.trim()}</span>
+                    <span>{bulletContent || ""}</span>
+                  </div>
+                </div>
+              );
+            } else {
+              // Bullet simple sans titre en gras
+              sections[currentSection].push(
+                <div key={`bullet-${i}`} className="flex items-start mb-4">
+                  <div className="h-5 w-5 rounded-full bg-natural-leaf/20 flex items-center justify-center mt-1 mr-3">
+                    <div className="h-2.5 w-2.5 rounded-full bg-natural-leaf"></div>
+                  </div>
+                  <div>{line.replace(/^(?:\*|\-|\d+\.)\s*/, '')}</div>
+                </div>
+              );
+            }
+          } else {
+            // Texte normal de paragraphe
+            sections[currentSection].push(<p key={`p-${i}`} className="mb-3 text-gray-700">{line}</p>);
+          }
+        } else {
+          // Texte normal de paragraphe pour les autres sections
+          sections[currentSection].push(<p key={`p-${i}`} className="mb-3 text-gray-700">{line}</p>);
+        }
+      }
+    }
 
-    // Replace markdown lists
-    const withLists = withHeaders.replace(/^(\*|\-|\d+\.)\s+(.+)$/gm, 
-      '<li class="ml-5 list-disc my-1.5">$2</li>');
-
-    // Replace bold text
-    const withBold = withLists.replace(/\*\*(.+?)\*\*/g, 
-      '<span class="font-bold text-natural-leaf">$1</span>');
-
-    // Replace paragraphs (lines that aren't headers or list items)
-    const withParagraphs = withBold.replace(
-      /^(?!<h|<li)(.+)$/gm, 
-      '<p class="my-2">$1</p>'
+    return (
+      <div className="diagnostic-content space-y-2">
+        {sections.title}
+        <div className="space-y-1">
+          {sections.analysis}
+        </div>
+        <div className="space-y-1">
+          {sections.diagnosis}
+        </div>
+        <div className="space-y-1">
+          {sections.recommendations}
+        </div>
+        <div className="space-y-1 mt-6 pt-4 border-t border-natural-leaf/10">
+          {sections.nextSteps}
+        </div>
+      </div>
     );
-
-    // Group list items
-    const withListGroups = withParagraphs.replace(
-      /(<li[^>]*>.*<\/li>\n*)+/g, 
-      '<ul class="my-3 space-y-1.5">$&</ul>'
-    );
-
-    return withListGroups;
   };
 
   return (
@@ -134,15 +203,9 @@ const DiagnosticResult = ({
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.5 }}
-          className={cn(
-            "border rounded-xl p-6 mb-6 bg-white shadow-sm prose prose-sm sm:prose max-w-none text-left",
-            "prose-headings:text-natural-leaf prose-headings:font-semibold prose-p:text-gray-700"
-          )}
+          className="border rounded-xl p-6 mb-6 bg-white shadow-sm text-left"
         >
-          <div 
-            className="diagnostic-content" 
-            dangerouslySetInnerHTML={{ __html: formatMarkdown(description) }}
-          />
+          {formatCustomDiagnostic(description)}
         </motion.div>
       ) : (
         <motion.div
