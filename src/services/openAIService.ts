@@ -48,11 +48,10 @@ export const generateDiagnostic = async (data: DiagnosticData): Promise<string> 
       return `Question: ${q.question}\nRéponse: ${answer}`;
     }).join("\n\n");
     
-    // Préparer les données à envoyer
-    const messages: Message[] = [
-      {
-        role: "system",
-        content: `Vous êtes un assistant spécialisé dans la santé des arbres, conçu pour analyser rapidement les informations recueillies et formuler des recommandations. Après avoir reçu les réponses d'un utilisateur au sujet de son arbre (emplacement, hauteur, problèmes observés, etc.) et examiné les photos fournies, vous devez :
+    // Préparer les messages à envoyer
+    const systemMessage: Message = {
+      role: "system",
+      content: `Vous êtes un assistant spécialisé dans la santé des arbres, conçu pour analyser rapidement les informations recueillies et formuler des recommandations. Après avoir reçu les réponses d'un utilisateur au sujet de son arbre (emplacement, hauteur, problèmes observés, etc.) et examiné les photos fournies, vous devez :
 
 1. Analyser les réponses et les images pour dresser un résumé clair des symptômes ou risques potentiels.
 2. Fournir un diagnostic général ou des pistes de réflexion basées sur les problèmes déclarés (ex. branches mortes, champignons, fissures, etc.) et visibles sur les photos.
@@ -95,15 +94,13 @@ Objectif :
 - Comprendre l'état général de son arbre sur la base des informations fournies.
 - Savoir quelles mesures simples il peut prendre immédiatement.
 - Être invité à recontacter le service avec des photos ou contacter l'expert à info@plumridge.be pour un diagnostic approfondi ou une intervention.`
-      },
+    };
+
+    // Création du message utilisateur avec contenu sous forme de tableau
+    let userContent: ContentItem[] = [
       {
-        role: "user",
-        content: [
-          {
-            type: "text",
-            text: `Voici les informations sur l'arbre que je souhaite diagnostiquer:\n\n${userContext}\n\n${images && images.length > 0 ? `${images.length} image(s) ont été fournies.` : "Aucune image n'a été fournie."}`
-          }
-        ]
+        type: "text",
+        text: `Voici les informations sur l'arbre que je souhaite diagnostiquer:\n\n${userContext}\n\n${images && images.length > 0 ? `${images.length} image(s) ont été fournies.` : "Aucune image n'a été fournie."}`
       }
     ];
 
@@ -112,18 +109,25 @@ Objectif :
       // Convertir toutes les images en base64
       const base64Images = await Promise.all(images.map(image => fileToBase64(image)));
       
-      // Ajouter chaque image au message de l'utilisateur
-      if (Array.isArray(messages[1].content)) {
-        base64Images.forEach(base64Image => {
-          messages[1].content.push({
-            type: "image_url",
-            image_url: {
-              url: base64Image
-            }
-          });
+      // Ajouter chaque image au contenu du message utilisateur
+      base64Images.forEach(base64Image => {
+        userContent.push({
+          type: "image_url",
+          image_url: {
+            url: base64Image
+          }
         });
-      }
+      });
     }
+
+    // Création du message utilisateur complet
+    const userMessage: Message = {
+      role: "user",
+      content: userContent
+    };
+
+    // Tableau final des messages
+    const messages: Message[] = [systemMessage, userMessage];
 
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
