@@ -10,6 +10,37 @@ Cette application web permet de diagnostiquer l'état de santé des arbres à pa
 **URL Lovable**: https://lovable.dev/projects/b32908dd-8204-4a8a-a6df-93ca10515111
 **URL GitHub**: https://github.com/Benspy22/plumeok
 
+## Comment cloner correctement ce projet
+
+Pour cloner et exécuter ce projet, suivez ces étapes précises :
+
+```sh
+# Étape 1: Cloner le dépôt dans un nouveau dossier
+# Assurez-vous de ne pas être déjà dans un dossier "plumeok"
+git clone https://github.com/Benspy22/plumeok.git
+
+# Étape 2: Aller dans le répertoire du projet
+cd plumeok
+
+# Étape 3: S'assurer que package.json contient tous les scripts nécessaires
+# Si le fichier package.json ne contient pas de script "dev", ajoutez-le :
+# {
+#   "scripts": {
+#     "dev": "vite",
+#     "build": "vite build",
+#     "preview": "vite preview"
+#   }
+# }
+
+# Étape 4: Installer les dépendances
+npm install
+
+# Étape 5: Démarrer le serveur de développement
+npm run dev
+```
+
+Si vous rencontrez l'erreur "Missing script: dev", c'est que votre package.json ne contient pas ce script. Vous devez l'ajouter manuellement ou télécharger directement le code source depuis Lovable.
+
 ## Comment connecter ce projet à GitHub
 
 Pour connecter ce projet à votre dépôt GitHub:
@@ -18,22 +49,6 @@ Pour connecter ce projet à votre dépôt GitHub:
 2. Sélectionnez l'option **GitHub** ou **Export to GitHub**
 3. Suivez les instructions pour autoriser Lovable à accéder à votre compte GitHub
 4. Sélectionnez le dépôt existant: https://github.com/Benspy22/plumeok
-
-Alternativement, vous pouvez aussi cloner ce projet directement:
-
-```sh
-# Étape 1: Cloner le dépôt
-git clone https://github.com/Benspy22/plumeok.git
-
-# Étape 2: Aller dans le répertoire du projet
-cd plumeok
-
-# Étape 3: Installer les dépendances
-npm i
-
-# Étape 4: Démarrer le serveur de développement
-npm run dev
-```
 
 ## Technologies utilisées
 
