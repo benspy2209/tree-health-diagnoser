@@ -14,6 +14,25 @@ import { cn } from "@/lib/utils";
 // Questions de diagnostic par défaut
 const defaultQuestions = [
   {
+    question: "Où se situe votre arbre ?",
+    subtitle: "Localisation et Potentiel de Risque",
+    options: [
+      "Proche d'une maison ou d'un bâtiment", 
+      "Proche d'une route ou zone fréquentée", 
+      "Dans un espace dégagé ou isolé", 
+      "Je ne sais pas"
+    ]
+  },
+  {
+    question: "L'arbre montre-t-il des signes inquiétants ?",
+    subtitle: "Localisation et Potentiel de Risque",
+    options: [
+      "Oui, signes préoccupants", 
+      "Non, mais je veux vérifier", 
+      "Je ne sais pas"
+    ]
+  },
+  {
     question: "Comment sont les feuilles de l'arbre ?",
     options: ["Vertes et saines", "Jaunies ou décolorées", "Tachées ou trouées", "L'arbre n'a pas de feuilles"]
   },
@@ -92,7 +111,8 @@ const DiagnosticContainer = ({ className }: DiagnosticContainerProps) => {
           answer.includes("tach") || 
           answer.includes("fissur") || 
           answer.includes("champ") || 
-          answer.includes("infest")
+          answer.includes("infest") ||
+          answer.includes("préoccupants")
         );
         
         const hasSevereProblems = Object.values(answers).some(answer => 
@@ -172,6 +192,7 @@ const DiagnosticContainer = ({ className }: DiagnosticContainerProps) => {
         <DiagnosticQuestion
           question={questionData.question}
           options={questionData.options}
+          subtitle={questionData.subtitle}
           onAnswer={handleAnswer}
         />
       );

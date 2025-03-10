@@ -8,6 +8,7 @@ interface DiagnosticQuestionProps {
   options: string[];
   onAnswer: (answer: string) => void;
   className?: string;
+  subtitle?: string;
 }
 
 const DiagnosticQuestion = ({
@@ -15,6 +16,7 @@ const DiagnosticQuestion = ({
   options,
   onAnswer,
   className,
+  subtitle,
 }: DiagnosticQuestionProps) => {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [isAnimatingOut, setIsAnimatingOut] = useState(false);
@@ -50,6 +52,17 @@ const DiagnosticQuestion = ({
           transition={{ duration: 0.5 }}
           className="flex flex-col space-y-6"
         >
+          {subtitle && (
+            <motion.p
+              className="text-lg text-center text-muted-foreground"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.05, duration: 0.5 }}
+            >
+              {subtitle}
+            </motion.p>
+          )}
+          
           <motion.h2 
             className="text-2xl font-semibold text-center mb-6"
             initial={{ opacity: 0 }}
