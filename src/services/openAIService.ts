@@ -55,15 +55,14 @@ export const generateDiagnostic = async (data: DiagnosticData): Promise<string> 
 4. Proposer un contact direct avec un expert à l'adresse e-mail info@plumridge.be pour un suivi professionnel.
 
 Structure de votre réponse :
-\`\`\`
 Rapport provisoire
 Analyse de l'arbre :
 [Description détaillée basée sur les informations textuelles et visuelles fournies, incluant les symptômes observés et leur localisation]
 
 Diagnostic probable :
-* [Premier problème identifié avec explication concise]
-* [Deuxième problème identifié avec explication concise]
-* [Autres problèmes potentiels]
+• [Premier problème identifié avec explication concise]
+• [Deuxième problème identifié avec explication concise]
+• [Autres problèmes potentiels]
 
 Recommandations :
 1. [Première recommandation d'action concrète]
@@ -75,7 +74,6 @@ Prochaine étape :
 Je vous recommande vivement de contacter un expert pour une évaluation professionnelle. Vous pouvez envoyer plus de détails ou demander une intervention à info@plumridge.be.
 
 N'hésitez pas à revenir vers nous avec d'autres photos ou des précisions sur l'environnement de l'arbre pour affiner le diagnostic.
-\`\`\`
 
 Règles et style de réponse :
 - Restez professionnel, clair et concis.
@@ -85,6 +83,7 @@ Règles et style de réponse :
 - Terminez toujours votre réponse par un appel à l'action pour contacter l'expert.
 - Analysez minutieusement les photos pour identifier les signes visuels de maladie ou de stress.
 - Mettez en relation les symptômes décrits textuellement avec ce que vous observez dans les images.
+- N'UTILISEZ JAMAIS DE SYNTAXE MARKDOWN. Utilisez du texte brut uniquement. N'ajoutez pas de délimiteurs tels que \`\`\`markdown ou \`\`\` à votre réponse.
 
 Objectif :
 À la fin de votre réponse, l'utilisateur doit :
@@ -136,7 +135,12 @@ Objectif :
     }
 
     const result = await response.json();
-    return result.choices[0].message.content;
+    let content = result.choices[0].message.content;
+    
+    // Supprimer toute syntaxe markdown éventuelle
+    content = content.replace(/```markdown\s*/g, '').replace(/```\s*$/g, '');
+    
+    return content;
   } catch (error) {
     console.error("Erreur lors de la génération du diagnostic:", error);
     toast({

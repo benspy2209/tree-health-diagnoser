@@ -72,6 +72,15 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				diagnostic: {
+					title: '#2C3E50',
+					subtitle: '#34495E',
+					highlight: '#5D8C53',
+					text: '#333333',
+					bullet: '#5D8C53',
+					background: '#F8F7F1',
+					border: '#E0E0E0'
 				}
 			},
 			borderRadius: {
