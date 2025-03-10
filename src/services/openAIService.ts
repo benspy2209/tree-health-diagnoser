@@ -96,13 +96,15 @@ Objectif :
     // Ajouter l'image si elle existe
     if (image) {
       const base64Image = await fileToBase64(image);
-      // Ajouter l'image au dernier message (user)
-      messages[1].content.push({
-        type: "image_url",
-        image_url: {
-          url: base64Image
-        }
-      });
+      // Vérifie que content est un tableau avant d'utiliser push
+      if (Array.isArray(messages[1].content)) {
+        messages[1].content.push({
+          type: "image_url",
+          image_url: {
+            url: base64Image
+          }
+        });
+      }
     }
 
     const response = await fetch("https://api.openai.com/v1/chat/completions", {

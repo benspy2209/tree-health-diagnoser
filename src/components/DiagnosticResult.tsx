@@ -1,6 +1,6 @@
 
 import { motion } from "framer-motion";
-import { Check, AlertTriangle, Info, Tree } from "lucide-react";
+import { Check, AlertTriangle, Info, Trees } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -24,7 +24,7 @@ const StatusIcon = ({ status }: { status: ResultStatus }) => {
     case "danger":
       return <AlertTriangle className="h-8 w-8 text-red-500" />;
     case "custom":
-      return <Tree className="h-8 w-8 text-natural-leaf" />;
+      return <Trees className="h-8 w-8 text-natural-leaf" />;
     default:
       return <Info className="h-8 w-8 text-blue-500" />;
   }
