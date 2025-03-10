@@ -20,7 +20,7 @@ const Index = () => {
         transition={{ delay: 0.8, duration: 0.5 }}
         className="py-4 px-6 text-center text-sm text-muted-foreground"
       >
-        <p>© 2023 Diagnostic de Santé des Arbres - Tous droits réservés</p>
+        <p>© 2025 Diagnostic de Santé des Arbres - Tous droits réservés</p>
       </motion.footer>
     </motion.div>
   );
