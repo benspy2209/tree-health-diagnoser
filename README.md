@@ -45,8 +45,8 @@ Si vous rencontrez l'erreur "Missing script: dev", c'est que votre package.json 
 
 Pour connecter ce projet à votre dépôt GitHub:
 
-1. Dans l'interface Lovable, cliquez sur l'icône **Share** (Partager) en haut à droite de l'écran
-2. Sélectionnez l'option **GitHub** ou **Export to GitHub**
+1. Dans l'interface Lovable, cherchez les trois points (**...**) ou le bouton de menu en haut à droite de l'écran
+2. Dans le menu déroulant, sélectionnez **Exporter vers GitHub** ou une option similaire
 3. Suivez les instructions pour autoriser Lovable à accéder à votre compte GitHub
 4. Sélectionnez le dépôt existant: https://github.com/Benspy22/plumeok
 
@@ -66,7 +66,13 @@ Ce projet utilise:
 Pour déployer ce projet:
 
 1. Ouvrez [Lovable](https://lovable.dev/projects/b32908dd-8204-4a8a-a6df-93ca10515111)
-2. Cliquez sur Partager -> Publier
+2. Cherchez les trois points (**...**) ou le bouton de menu en haut à droite
+3. Sélectionnez l'option **Déployer** ou **Publier**
+
+Si vous ne voyez pas ces options, essayez de:
+- Vérifier si votre navigateur affiche tous les éléments de l'interface (zoom, extensions, etc.)
+- Rafraîchir la page et vous reconnecter si nécessaire
+- Contacter le support de Lovable via leur Discord pour obtenir de l'aide spécifique
 
 ## Utilisation d'un domaine personnalisé
 
