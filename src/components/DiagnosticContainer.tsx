@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import DiagnosticHeader from "./DiagnosticHeader";
@@ -41,6 +40,7 @@ const defaultQuestions = [
       "Champignons ou moisissures",
       "Fissures ou blessures",
       "Présence de cavités",
+      "L'arbre penche",
       "Autre"
     ]
   },
@@ -141,7 +141,8 @@ const DiagnosticContainer = ({ className }: DiagnosticContainerProps) => {
           answer.includes("cassées") ||
           answer.includes("moisissures") ||
           answer.includes("blessures") ||
-          answer.includes("cavités")
+          answer.includes("cavités") ||
+          answer.includes("penche")
         );
         
         const hasSevereProblems = Object.values(answers).some(answer => 
