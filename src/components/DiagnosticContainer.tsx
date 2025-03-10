@@ -190,7 +190,7 @@ const DiagnosticContainer = ({ className }: DiagnosticContainerProps) => {
           totalSteps={totalSteps}
           setCurrentStep={(newStep) => {
             // Ne permet de revenir qu'aux étapes déjà visitées
-            if (newStep < step) {
+            if (typeof newStep === 'number' && newStep < step) {
               setStep(newStep);
             }
           }}
