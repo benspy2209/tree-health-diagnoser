@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import DiagnosticHeader from "./DiagnosticHeader";
@@ -66,7 +67,7 @@ interface DiagnosticContainerProps {
 const DiagnosticContainer = ({ className }: DiagnosticContainerProps) => {
   const [step, setStep] = useState(1);
   const [answers, setAnswers] = useState<Record<number, string>>({});
-  const [uploadedImage, setUploadedImage] = useState<File | null>(null);
+  const [uploadedImages, setUploadedImages] = useState<File[]>([]);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [aiDiagnostic, setAiDiagnostic] = useState<string | null>(null);
   const [needsApiKey, setNeedsApiKey] = useState(false);
@@ -82,19 +83,34 @@ const DiagnosticContainer = ({ className }: DiagnosticContainerProps) => {
     }, 500);
   };
   
-  const handleImageUpload = (file: File) => {
-    setUploadedImage(file);
+  const handleImageUpload = (files: File[]) => {
+    if (files.length > 0) {
+      setUploadedImages(prevImages => {
+        // Conserver uniquement les 5 premières images
+        const newImages = [...prevImages, ...files];
+        return newImages.slice(0, 5);
+      });
+    }
   };
   
   const handleNext = async () => {
     if (step === questions.length + 1) { // Si on est à l'étape d'upload d'image
+      if (uploadedImages.length === 0) {
+        toast({
+          title: "Aucune image",
+          description: "Veuillez télécharger au moins une image pour continuer",
+          variant: "destructive"
+        });
+        return;
+      }
+
       setIsAnalyzing(true);
       
       try {
         const diagnosticData = {
           answers,
           questions,
-          image: uploadedImage
+          images: uploadedImages
         };
         
         const diagnosis = await generateDiagnostic(diagnosticData);
@@ -125,7 +141,7 @@ const DiagnosticContainer = ({ className }: DiagnosticContainerProps) => {
   const handleRestart = () => {
     setStep(1);
     setAnswers({});
-    setUploadedImage(null);
+    setUploadedImages([]);
     setAiDiagnostic(null);
   };
   
@@ -318,13 +334,13 @@ const DiagnosticContainer = ({ className }: DiagnosticContainerProps) => {
               )}
             >
               <ArrowLeft size={16} className="mr-2" />
-              Pr��cédent
+              Précédent
             </Button>
             
             {step > questions.length && (
               <Button
                 onClick={handleNext}
-                disabled={step === questions.length + 1 && !uploadedImage}
+                disabled={step === questions.length + 1 && uploadedImages.length === 0}
                 className="bg-natural-leaf hover:bg-natural-leaf/90 text-white ml-auto"
               >
                 Analyser

@@ -20,7 +20,7 @@ export const isApiKeySet = () => {
 interface DiagnosticData {
   answers: Record<number, string>;
   questions: Array<{ question: string; options: string[] }>;
-  image?: File | null;
+  images?: File[] | null;
 }
 
 // Définition des types pour les messages OpenAI avec support d'images
@@ -39,7 +39,7 @@ export const generateDiagnostic = async (data: DiagnosticData): Promise<string> 
       throw new Error("Clé API OpenAI non définie");
     }
 
-    const { answers, questions, image } = data;
+    const { answers, questions, images } = data;
     
     // Préparer le contexte pour le prompt
     const userContext = questions.map((q, index) => {
@@ -101,22 +101,26 @@ Objectif :
         content: [
           {
             type: "text",
-            text: `Voici les informations sur l'arbre que je souhaite diagnostiquer:\n\n${userContext}\n\n${image ? "Une image a été fournie." : "Aucune image n'a été fournie."}`
+            text: `Voici les informations sur l'arbre que je souhaite diagnostiquer:\n\n${userContext}\n\n${images && images.length > 0 ? `${images.length} image(s) ont été fournies.` : "Aucune image n'a été fournie."}`
           }
         ]
       }
     ];
 
-    // Ajouter l'image si elle existe
-    if (image) {
-      const base64Image = await fileToBase64(image);
-      // L'image est ajoutée au tableau content du message de l'utilisateur
+    // Ajouter les images si elles existent
+    if (images && images.length > 0) {
+      // Convertir toutes les images en base64
+      const base64Images = await Promise.all(images.map(image => fileToBase64(image)));
+      
+      // Ajouter chaque image au message de l'utilisateur
       if (Array.isArray(messages[1].content)) {
-        messages[1].content.push({
-          type: "image_url",
-          image_url: {
-            url: base64Image
-          }
+        base64Images.forEach(base64Image => {
+          messages[1].content.push({
+            type: "image_url",
+            image_url: {
+              url: base64Image
+            }
+          });
         });
       }
     }
