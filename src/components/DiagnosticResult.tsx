@@ -1,6 +1,6 @@
 
 import { motion } from "framer-motion";
-import { Check, AlertTriangle, Info, Trees } from "lucide-react";
+import { Check, AlertTriangle, Info, Trees, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -128,7 +128,21 @@ const DiagnosticResult = ({
           }
         } else {
           // Texte normal de paragraphe pour les autres sections
-          sections[currentSection].push(<p key={`p-${i}`} className="mb-3 text-gray-700">{line}</p>);
+          // Rendre l'email info@plumridge.be cliquable en cherchant cette adresse dans le texte
+          if (line.includes("info@plumridge.be")) {
+            const parts = line.split(/(info@plumridge\.be)/);
+            sections[currentSection].push(
+              <p key={`p-${i}`} className="mb-3 text-gray-700">
+                {parts.map((part, idx) => 
+                  part === "info@plumridge.be" 
+                    ? <a key={`mail-${idx}`} href="mailto:info@plumridge.be" className="text-natural-leaf hover:underline">{part}</a>
+                    : part
+                )}
+              </p>
+            );
+          } else {
+            sections[currentSection].push(<p key={`p-${i}`} className="mb-3 text-gray-700">{line}</p>);
+          }
         }
       }
     }
@@ -239,10 +253,21 @@ const DiagnosticResult = ({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.8, duration: 0.5 }}
-        className="flex justify-center mt-8"
+        className="flex justify-center gap-4 mt-8"
       >
-        <Button onClick={onRestart} className="bg-natural-leaf hover:bg-natural-leaf/90 text-white">
+        <Button 
+          onClick={onRestart} 
+          className="bg-natural-leaf hover:bg-natural-leaf/90 text-white"
+        >
           Démarrer un nouveau diagnostic
+        </Button>
+        <Button 
+          variant="outline"
+          onClick={() => window.location.href = 'https://www.plumridge.be/'}
+          className="border-natural-leaf text-natural-leaf hover:bg-natural-leaf/10"
+        >
+          <ArrowLeft className="mr-2 h-4 w-4" />
+          Retour au site
         </Button>
       </motion.div>
     </motion.div>
