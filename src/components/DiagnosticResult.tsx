@@ -49,6 +49,40 @@ const DiagnosticResult = ({
   // Pour un diagnostic personnalisé (issu de l'API OpenAI), on affiche directement la description
   const isCustomDiagnostic = status === "custom";
 
+  // Parse markdown content
+  const formatMarkdown = (content: string) => {
+    // Replace markdown headers
+    const withHeaders = content.replace(/^(#+)\s+(.+)$/gm, (_, hashes, text) => {
+      const size = hashes.length;
+      const className = size === 1 ? "text-2xl font-bold my-4" : 
+                        size === 2 ? "text-xl font-bold my-3" : 
+                        "text-lg font-bold my-2";
+      return `<h${size} class="${className}">${text}</h${size}>`;
+    });
+
+    // Replace markdown lists
+    const withLists = withHeaders.replace(/^(\*|\-|\d+\.)\s+(.+)$/gm, 
+      '<li class="ml-5 list-disc my-1.5">$2</li>');
+
+    // Replace bold text
+    const withBold = withLists.replace(/\*\*(.+?)\*\*/g, 
+      '<span class="font-bold text-natural-leaf">$1</span>');
+
+    // Replace paragraphs (lines that aren't headers or list items)
+    const withParagraphs = withBold.replace(
+      /^(?!<h|<li)(.+)$/gm, 
+      '<p class="my-2">$1</p>'
+    );
+
+    // Group list items
+    const withListGroups = withParagraphs.replace(
+      /(<li[^>]*>.*<\/li>\n*)+/g, 
+      '<ul class="my-3 space-y-1.5">$&</ul>'
+    );
+
+    return withListGroups;
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -100,11 +134,15 @@ const DiagnosticResult = ({
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.5 }}
-          className="prose prose-sm sm:prose lg:prose-lg max-w-none"
+          className={cn(
+            "border rounded-xl p-6 mb-6 bg-white shadow-sm prose prose-sm sm:prose max-w-none text-left",
+            "prose-headings:text-natural-leaf prose-headings:font-semibold prose-p:text-gray-700"
+          )}
         >
-          <div className="whitespace-pre-line">
-            {description}
-          </div>
+          <div 
+            className="diagnostic-content" 
+            dangerouslySetInnerHTML={{ __html: formatMarkdown(description) }}
+          />
         </motion.div>
       ) : (
         <motion.div
