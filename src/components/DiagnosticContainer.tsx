@@ -54,18 +54,6 @@ const defaultQuestions = [
       "Plus de 6 mois",
       "Je ne sais pas"
     ]
-  },
-  {
-    question: "Comment sont les feuilles de l'arbre ?",
-    options: ["Vertes et saines", "Jaunies ou décolorées", "Tachées ou trouées", "L'arbre n'a pas de feuilles"]
-  },
-  {
-    question: "Comment est l'écorce de l'arbre ?",
-    options: ["Intacte et saine", "Fissurée ou écaillée", "Présence de champignons", "Suintements ou écoulements"]
-  },
-  {
-    question: "Avez-vous remarqué des parasites sur l'arbre ?",
-    options: ["Aucun parasite visible", "Quelques insectes", "Infestation importante", "Présence de nids"]
   }
 ];
 
