@@ -1,10 +1,10 @@
 
 import { motion } from "framer-motion";
-import { Check, AlertTriangle, Info } from "lucide-react";
+import { Check, AlertTriangle, Info, Tree } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-type ResultStatus = "healthy" | "warning" | "danger" | "unknown";
+type ResultStatus = "healthy" | "warning" | "danger" | "unknown" | "custom";
 
 interface DiagnosticResultProps {
   status: ResultStatus;
@@ -23,6 +23,8 @@ const StatusIcon = ({ status }: { status: ResultStatus }) => {
       return <AlertTriangle className="h-8 w-8 text-amber-500" />;
     case "danger":
       return <AlertTriangle className="h-8 w-8 text-red-500" />;
+    case "custom":
+      return <Tree className="h-8 w-8 text-natural-leaf" />;
     default:
       return <Info className="h-8 w-8 text-blue-500" />;
   }
@@ -33,6 +35,7 @@ const statusClasses = {
   warning: "bg-amber-50 border-amber-200 text-amber-900",
   danger: "bg-red-50 border-red-200 text-red-900",
   unknown: "bg-blue-50 border-blue-200 text-blue-900",
+  custom: "bg-natural-light border-natural-leaf/20 text-foreground",
 };
 
 const DiagnosticResult = ({
@@ -43,12 +46,15 @@ const DiagnosticResult = ({
   onRestart,
   className,
 }: DiagnosticResultProps) => {
+  // Pour un diagnostic personnalisé (issu de l'API OpenAI), on affiche directement la description
+  const isCustomDiagnostic = status === "custom";
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className={cn("w-full max-w-2xl mx-auto px-4", className)}
+      className={cn("w-full max-w-4xl mx-auto px-4", className)}
     >
       <div className="text-center mb-8">
         <motion.div
@@ -63,6 +69,7 @@ const DiagnosticResult = ({
             status === "warning" ? "bg-amber-100" : "",
             status === "danger" ? "bg-red-100" : "",
             status === "unknown" ? "bg-blue-100" : "",
+            status === "custom" ? "bg-natural-light" : "",
           )}>
             <StatusIcon status={status} />
           </div>
@@ -75,41 +82,57 @@ const DiagnosticResult = ({
         >
           {title}
         </motion.h2>
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.4, duration: 0.5 }}
-          className="text-muted-foreground"
-        >
-          {description}
-        </motion.p>
+        
+        {!isCustomDiagnostic && (
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.4, duration: 0.5 }}
+            className="text-muted-foreground"
+          >
+            {description}
+          </motion.p>
+        )}
       </div>
 
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.5, duration: 0.5 }}
-        className={cn(
-          "border rounded-xl p-6 mb-6",
-          statusClasses[status]
-        )}
-      >
-        <h3 className="font-semibold mb-3">Recommandations :</h3>
-        <ul className="space-y-2">
-          {recommendations.map((recommendation, index) => (
-            <motion.li
-              key={index}
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.6 + index * 0.1, duration: 0.5 }}
-              className="flex items-start"
-            >
-              <Check size={16} className="mt-1 mr-2 shrink-0" />
-              <span>{recommendation}</span>
-            </motion.li>
-          ))}
-        </ul>
-      </motion.div>
+      {isCustomDiagnostic ? (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5, duration: 0.5 }}
+          className="prose prose-sm sm:prose lg:prose-lg max-w-none"
+        >
+          <div className="whitespace-pre-line">
+            {description}
+          </div>
+        </motion.div>
+      ) : (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5, duration: 0.5 }}
+          className={cn(
+            "border rounded-xl p-6 mb-6",
+            statusClasses[status]
+          )}
+        >
+          <h3 className="font-semibold mb-3">Recommandations :</h3>
+          <ul className="space-y-2">
+            {recommendations.map((recommendation, index) => (
+              <motion.li
+                key={index}
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.6 + index * 0.1, duration: 0.5 }}
+                className="flex items-start"
+              >
+                <Check size={16} className="mt-1 mr-2 shrink-0" />
+                <span>{recommendation}</span>
+              </motion.li>
+            ))}
+          </ul>
+        </motion.div>
+      )}
 
       <motion.div
         initial={{ opacity: 0 }}

@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import DiagnosticHeader from "./DiagnosticHeader";
@@ -6,9 +7,12 @@ import DiagnosticQuestion from "./DiagnosticQuestion";
 import ImageUploader from "./ImageUploader";
 import DiagnosticResult from "./DiagnosticResult";
 import AnalyzingState from "./AnalyzingState";
+import ApiKeyInput from "./ApiKeyInput";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ArrowLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { generateDiagnostic, isApiKeySet } from "@/services/openAIService";
+import { toast } from "@/hooks/use-toast";
 
 // Questions de diagnostic par défaut
 const defaultQuestions = [
@@ -66,6 +70,8 @@ const DiagnosticContainer = ({ className }: DiagnosticContainerProps) => {
   const [answers, setAnswers] = useState<Record<number, string>>({});
   const [uploadedImage, setUploadedImage] = useState<File | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [aiDiagnostic, setAiDiagnostic] = useState<string | null>(null);
+  const [needsApiKey, setNeedsApiKey] = useState(false);
   
   const questions = defaultQuestions;
   const totalSteps = questions.length + 2; // Questions + Image upload + Results
@@ -83,15 +89,41 @@ const DiagnosticContainer = ({ className }: DiagnosticContainerProps) => {
     setUploadedImage(file);
   };
   
-  const handleNext = () => {
+  const handleNext = async () => {
     if (step === questions.length + 1) { // Si on est à l'étape d'upload d'image
+      if (!isApiKeySet()) {
+        setNeedsApiKey(true);
+        return;
+      }
+      
       setIsAnalyzing(true);
       
-      // Simuler une analyse (à remplacer par l'intégration avec ChatGPT API)
-      setTimeout(() => {
+      try {
+        // Données à envoyer à l'API OpenAI
+        const diagnosticData = {
+          answers,
+          questions,
+          image: uploadedImage
+        };
+        
+        // Appel de l'API pour générer le diagnostic
+        const diagnosis = await generateDiagnostic(diagnosticData);
+        setAiDiagnostic(diagnosis);
+        
+        // Passer à l'étape de résultats
+        setTimeout(() => {
+          setIsAnalyzing(false);
+          setStep(step + 1);
+        }, 1000);
+      } catch (error) {
+        console.error("Erreur lors de l'analyse:", error);
+        toast({
+          title: "Erreur lors de l'analyse",
+          description: "Une erreur est survenue pendant l'analyse. Veuillez réessayer.",
+          variant: "destructive"
+        });
         setIsAnalyzing(false);
-        setStep(step + 1);
-      }, 3500);
+      }
     } else {
       setStep(prev => Math.min(prev + 1, totalSteps));
     }
@@ -105,9 +137,20 @@ const DiagnosticContainer = ({ className }: DiagnosticContainerProps) => {
     setStep(1);
     setAnswers({});
     setUploadedImage(null);
+    setAiDiagnostic(null);
+  };
+  
+  const handleApiKeySet = () => {
+    setNeedsApiKey(false);
+    handleNext();
   };
   
   const renderContent = () => {
+    // Afficher l'écran de saisie de la clé API si nécessaire
+    if (needsApiKey) {
+      return <ApiKeyInput onKeySet={handleApiKeySet} />;
+    }
+    
     // Montrer l'état d'analyse
     if (isAnalyzing) {
       return <AnalyzingState />;
@@ -115,6 +158,20 @@ const DiagnosticContainer = ({ className }: DiagnosticContainerProps) => {
     
     // Étape de résultat
     if (step === questions.length + 2) {
+      // Si on a un diagnostic de l'IA, l'utiliser
+      if (aiDiagnostic) {
+        return (
+          <DiagnosticResult
+            status="custom"
+            title="Diagnostic de votre arbre"
+            description={aiDiagnostic}
+            recommendations={[]}
+            onRestart={handleRestart}
+          />
+        );
+      }
+      
+      // Sinon, utiliser la logique de diagnostic par défaut
       const determineStatus = () => {
         // Logique simplifiée pour déterminer le statut (à améliorer avec l'IA)
         const hasProblems = Object.values(answers).some(answer => 
@@ -253,7 +310,7 @@ const DiagnosticContainer = ({ className }: DiagnosticContainerProps) => {
       >
         <AnimatePresence mode="wait">
           <motion.div
-            key={`step-${step}-${isAnalyzing}`}
+            key={`step-${step}-${isAnalyzing}-${needsApiKey}`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
@@ -265,7 +322,7 @@ const DiagnosticContainer = ({ className }: DiagnosticContainerProps) => {
         </AnimatePresence>
         
         {/* Boutons de navigation (sauf pour les états spéciaux) */}
-        {!isAnalyzing && step !== questions.length + 2 && (
+        {!isAnalyzing && !needsApiKey && step !== questions.length + 2 && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
