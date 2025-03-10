@@ -18,6 +18,16 @@ interface DiagnosticData {
   image?: File | null;
 }
 
+// Définition des types pour les messages OpenAI avec support d'images
+type ContentItem = 
+  | { type: "text"; text: string }
+  | { type: "image_url"; image_url: { url: string } };
+
+type Message = {
+  role: "system" | "user" | "assistant";
+  content: string | ContentItem[];
+};
+
 export const generateDiagnostic = async (data: DiagnosticData): Promise<string> => {
   try {
     if (!OPENAI_API_KEY) {
@@ -34,7 +44,7 @@ export const generateDiagnostic = async (data: DiagnosticData): Promise<string> 
     }).join("\n\n");
     
     // Préparer les données à envoyer
-    const messages = [
+    const messages: Message[] = [
       {
         role: "system",
         content: `Vous êtes un assistant spécialisé dans la santé des arbres, conçu pour analyser rapidement les informations recueillies et formuler des recommandations. Après avoir reçu les réponses d'un utilisateur au sujet de son arbre (emplacement, hauteur, problèmes observés, etc.) et examiné les photos fournies, vous devez :
@@ -96,7 +106,7 @@ Objectif :
     // Ajouter l'image si elle existe
     if (image) {
       const base64Image = await fileToBase64(image);
-      // Vérifie que content est un tableau avant d'utiliser push
+      // L'image est ajoutée au tableau content du message de l'utilisateur
       if (Array.isArray(messages[1].content)) {
         messages[1].content.push({
           type: "image_url",
