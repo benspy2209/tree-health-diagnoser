@@ -8,64 +8,47 @@ Cette application web permet de diagnostiquer l'état de santé des arbres à pa
 ## URL du projet
 
 **URL de déploiement cible**: https://www.plumridge.be/diagnostic/
+**Dépôt GitHub**: https://github.com/benspy2209/tree-health-diagnoser
 
 ## Comment créer et configurer ce projet
 
 Pour créer et configurer ce projet, suivez ces étapes:
 
 ```sh
-# Étape 1: Créer un nouveau dossier pour votre projet
-mkdir diagnostic-sante-arbres
-cd diagnostic-sante-arbres
+# Étape 1: Cloner le dépôt
+git clone https://github.com/benspy2209/tree-health-diagnoser.git
+cd tree-health-diagnoser
 
-# Étape 2: Initialiser un nouveau dépôt Git
-git init
+# Étape 2: Installer les dépendances
+npm install
 
-# Étape 3: Créer un fichier package.json basique
-npm init -y
-
-# Étape 4: Installer les dépendances de base
-npm install react react-dom react-router-dom vite @vitejs/plugin-react-swc
-
-# Étape 5: Ajouter les scripts nécessaires à package.json
-# {
-#   "scripts": {
-#     "dev": "vite",
-#     "build": "vite build",
-#     "preview": "vite preview"
-#   }
-# }
-
-# Étape 6: Démarrer le serveur de développement
+# Étape 3: Démarrer le serveur de développement
 npm run dev
 ```
 
-## Comment exporter ce projet vers GitHub
+## Comment contribuer à ce projet
 
-Pour exporter ce projet vers un dépôt GitHub:
+Pour contribuer à ce projet:
 
-1. Créez un nouveau dépôt sur GitHub
-2. Liez votre dépôt local au dépôt distant:
+1. Forkez le dépôt sur GitHub: https://github.com/benspy2209/tree-health-diagnoser
+2. Clonez votre fork:
    ```sh
-   git remote add origin https://github.com/VOTRE-NOM-UTILISATEUR/VOTRE-DEPOT.git
+   git clone https://github.com/VOTRE-NOM-UTILISATEUR/tree-health-diagnoser.git
    ```
-3. Ajoutez vos fichiers:
+3. Créez une nouvelle branche:
+   ```sh
+   git checkout -b ma-nouvelle-fonctionnalite
+   ```
+4. Faites vos modifications et committez:
    ```sh
    git add .
+   git commit -m "Description de vos modifications"
    ```
-4. Committez vos changements:
+5. Poussez vers votre fork:
    ```sh
-   git commit -m "Premier commit"
+   git push origin ma-nouvelle-fonctionnalite
    ```
-5. Poussez vers GitHub:
-   ```sh
-   git push -u origin main
-   ```
-
-Si vous utilisez Lovable:
-1. Dans l'interface Lovable, cherchez les trois points (**...**) ou le bouton de menu en haut à droite
-2. Sélectionnez **Exporter vers GitHub**
-3. Suivez les instructions pour créer ou sélectionner un dépôt
+6. Créez une Pull Request sur GitHub
 
 ## Technologies utilisées
 
