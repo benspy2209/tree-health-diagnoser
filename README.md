@@ -8,22 +8,24 @@ Cette application web permet de diagnostiquer l'état de santé des arbres à pa
 ## URL du projet
 
 **URL de déploiement cible**: https://www.plumridge.be/diagnostic/
-**URL GitHub**: https://github.com/benspy2209/tree-health-diagnoser
 
 ## Comment cloner correctement ce projet
 
-Pour cloner et exécuter ce projet, suivez ces étapes précises :
+Pour cloner et exécuter ce projet localement, suivez ces étapes précises :
 
 ```sh
-# Étape 1: Cloner le dépôt dans un nouveau dossier
-# Assurez-vous de ne pas être déjà dans un dossier "tree-health-diagnoser"
-git clone https://github.com/benspy2209/tree-health-diagnoser.git
-
-# Étape 2: Aller dans le répertoire du projet
+# Étape 1: Créer un nouveau dossier pour votre projet
+mkdir tree-health-diagnoser
 cd tree-health-diagnoser
 
-# Étape 3: S'assurer que package.json contient tous les scripts nécessaires
-# Si le fichier package.json ne contient pas de script "dev", ajoutez-le :
+# Étape 2: Initialiser un nouveau dépôt Git
+git init
+
+# Étape 3: Télécharger le code source
+# Vous pouvez soit exporter le projet depuis Lovable vers GitHub
+# Ou télécharger directement les fichiers
+
+# Étape 4: S'assurer que package.json contient tous les scripts nécessaires
 # {
 #   "scripts": {
 #     "dev": "vite",
@@ -32,23 +34,23 @@ cd tree-health-diagnoser
 #   }
 # }
 
-# Étape 4: Installer les dépendances
+# Étape 5: Installer les dépendances
 npm install
 
-# Étape 5: Démarrer le serveur de développement
+# Étape 6: Démarrer le serveur de développement
 npm run dev
 ```
 
-Si vous rencontrez l'erreur "Missing script: dev", c'est que votre package.json ne contient pas ce script. Vous devez l'ajouter manuellement ou télécharger directement le code source depuis Lovable.
+Si vous rencontrez l'erreur "Missing script: dev", c'est que votre package.json ne contient pas ce script. Vous devez l'ajouter manuellement.
 
-## Comment connecter ce projet à GitHub
+## Comment exporter ce projet vers GitHub
 
-Pour connecter ce projet à votre dépôt GitHub:
+Pour exporter ce projet vers un dépôt GitHub:
 
 1. Dans l'interface Lovable, cherchez les trois points (**...**) ou le bouton de menu en haut à droite de l'écran
 2. Dans le menu déroulant, sélectionnez **Exporter vers GitHub** ou une option similaire
 3. Suivez les instructions pour autoriser Lovable à accéder à votre compte GitHub
-4. Sélectionnez le dépôt existant: https://github.com/benspy2209/tree-health-diagnoser
+4. Créez un nouveau dépôt ou sélectionnez un dépôt existant
 
 ## Technologies utilisées
 
@@ -67,7 +69,7 @@ Ce projet utilise:
 
 Pour déployer ce projet via Lovable:
 
-1. Ouvrez [Lovable](https://lovable.dev/projects/b32908dd-8204-4a8a-a6df-93ca10515111)
+1. Ouvrez l'interface Lovable de ce projet
 2. Cherchez les trois points (**...**) ou le bouton de menu en haut à droite
 3. Sélectionnez l'option **Déployer** ou **Publier**
 
@@ -88,4 +90,4 @@ Pour déployer sur votre site à l'URL https://www.plumridge.be/diagnostic/ :
 
 ## Utilisation d'un domaine personnalisé
 
-Si vous souhaitez déployer ce projet sous un autre domaine, nous recommandons d'utiliser Netlify. Consultez notre documentation pour plus de détails: [Domaines personnalisés](https://docs.lovable.dev/tips-tricks/custom-domain/)
+Si vous souhaitez déployer ce projet sous un autre domaine, nous recommandons d'utiliser Netlify. Consultez la documentation Lovable pour plus de détails: [Domaines personnalisés](https://docs.lovable.dev/tips-tricks/custom-domain/)
