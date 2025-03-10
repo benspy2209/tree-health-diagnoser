@@ -199,6 +199,14 @@ const DiagnosticContainer = ({ className }: DiagnosticContainerProps) => {
     if (step === questions.length + 1) {
       return (
         <div className="space-y-6">
+          <div className="text-center mb-6">
+            <h3 className="text-lg font-medium mb-2">Pour un diagnostic plus précis, ajoutez :</h3>
+            <ul className="text-muted-foreground list-disc list-inside space-y-1">
+              <li>Une vue complète de l'arbre</li>
+              <li>Une photo des zones concernées</li>
+              <li>Si applicable : champignons, moisissures, cavités</li>
+            </ul>
+          </div>
           <ImageUploader onImageUpload={handleImageUpload} />
         </div>
       );
