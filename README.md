@@ -8,47 +8,44 @@ Cette application web permet de diagnostiquer l'état de santé des arbres à pa
 ## URL du projet
 
 **URL de déploiement cible**: https://www.plumridge.be/diagnostic/
-**Dépôt GitHub**: https://github.com/benspy2209/tree-health-diagnoser
 
-## Comment créer et configurer ce projet
+**Note sur le dépôt GitHub**: Le dépôt GitHub n'est pas encore créé ou accessible publiquement. Les instructions ci-dessous concernent la configuration locale du projet.
 
-Pour créer et configurer ce projet, suivez ces étapes:
+## Comment créer et configurer ce projet localement
+
+Pour créer et configurer ce projet localement, suivez ces étapes:
 
 ```sh
-# Étape 1: Cloner le dépôt
-git clone https://github.com/benspy2209/tree-health-diagnoser.git
+# Étape 1: Créer un dossier pour le projet
+mkdir tree-health-diagnoser
 cd tree-health-diagnoser
 
-# Étape 2: Installer les dépendances
-npm install
+# Étape 2: Initialiser le projet
+git init
+npm init -y
 
-# Étape 3: Démarrer le serveur de développement
+# Étape 3: Installer les dépendances
+npm install react react-dom react-router-dom vite @vitejs/plugin-react-swc framer-motion tailwindcss postcss autoprefixer
+
+# Étape 4: Démarrer le serveur de développement
 npm run dev
 ```
 
-## Comment contribuer à ce projet
+## Comment créer le dépôt GitHub pour ce projet
 
-Pour contribuer à ce projet:
+Pour créer un nouveau dépôt GitHub pour ce projet:
 
-1. Forkez le dépôt sur GitHub: https://github.com/benspy2209/tree-health-diagnoser
-2. Clonez votre fork:
+1. Connectez-vous à votre compte GitHub
+2. Cliquez sur "New repository" (Nouveau dépôt)
+3. Nommez le dépôt "tree-health-diagnoser"
+4. Choisissez les paramètres de visibilité (public ou privé)
+5. Cliquez sur "Create repository" (Créer le dépôt)
+6. Suivez les instructions pour pousser un dépôt existant:
    ```sh
-   git clone https://github.com/VOTRE-NOM-UTILISATEUR/tree-health-diagnoser.git
+   git remote add origin https://github.com/VOTRE-NOM-UTILISATEUR/tree-health-diagnoser.git
+   git branch -M main
+   git push -u origin main
    ```
-3. Créez une nouvelle branche:
-   ```sh
-   git checkout -b ma-nouvelle-fonctionnalite
-   ```
-4. Faites vos modifications et committez:
-   ```sh
-   git add .
-   git commit -m "Description de vos modifications"
-   ```
-5. Poussez vers votre fork:
-   ```sh
-   git push origin ma-nouvelle-fonctionnalite
-   ```
-6. Créez une Pull Request sur GitHub
 
 ## Technologies utilisées
 
