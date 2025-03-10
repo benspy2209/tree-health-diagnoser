@@ -18,8 +18,13 @@ export const isApiKeySet = () => {
 };
 
 interface DiagnosticData {
-  answers: Record<number, string>;
-  questions: Array<{ question: string; options: string[] }>;
+  answers: Record<number, string | string[]>;
+  questions: Array<{ 
+    question: string; 
+    options: string[];
+    multiSelect?: boolean;
+    subtitle?: string;
+  }>;
   images?: File[] | null;
 }
 
@@ -44,8 +49,17 @@ export const generateDiagnostic = async (data: DiagnosticData): Promise<string> 
     // Préparer le contexte pour le prompt
     const userContext = questions.map((q, index) => {
       const questionNumber = index + 1;
-      const answer = answers[questionNumber] || "Non renseigné";
-      return `Question: ${q.question}\nRéponse: ${answer}`;
+      const answer = answers[questionNumber];
+      
+      // Formater la réponse en fonction de son type (string ou string[])
+      let formattedAnswer: string;
+      if (Array.isArray(answer)) {
+        formattedAnswer = answer.join(", ");
+      } else {
+        formattedAnswer = answer || "Non renseigné";
+      }
+      
+      return `Question: ${q.question}\nRéponse: ${formattedAnswer}`;
     }).join("\n\n");
     
     // Préparer les messages à envoyer

@@ -37,6 +37,7 @@ const defaultQuestions = [
   {
     question: "Quels problèmes avez-vous observés ?",
     subtitle: "Symptômes Observés",
+    multiSelect: true,
     options: [
       "Feuilles décolorées",
       "Branches mortes ou cassées",
@@ -66,7 +67,7 @@ interface DiagnosticContainerProps {
 
 const DiagnosticContainer = ({ className }: DiagnosticContainerProps) => {
   const [step, setStep] = useState(1);
-  const [answers, setAnswers] = useState<Record<number, string>>({});
+  const [answers, setAnswers] = useState<Record<number, string | string[]>>({});
   const [uploadedImages, setUploadedImages] = useState<File[]>([]);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [aiDiagnostic, setAiDiagnostic] = useState<string | null>(null);
@@ -75,7 +76,7 @@ const DiagnosticContainer = ({ className }: DiagnosticContainerProps) => {
   const questions = defaultQuestions;
   const totalSteps = questions.length + 2; // Questions + Image upload + Results
   
-  const handleAnswer = (answer: string) => {
+  const handleAnswer = (answer: string | string[]) => {
     setAnswers({ ...answers, [step]: answer });
     
     setTimeout(() => {
@@ -173,26 +174,29 @@ const DiagnosticContainer = ({ className }: DiagnosticContainerProps) => {
       }
       
       const determineStatus = () => {
+        // Fonction pour vérifier si une valeur ou un tableau contient certains mots clés
+        const containsKeywords = (value: string | string[], keywords: string[]) => {
+          if (Array.isArray(value)) {
+            return value.some(item => 
+              keywords.some(keyword => item.toLowerCase().includes(keyword.toLowerCase()))
+            );
+          } else {
+            return keywords.some(keyword => 
+              value.toLowerCase().includes(keyword.toLowerCase())
+            );
+          }
+        };
+        
         const hasProblems = Object.values(answers).some(answer => 
-          answer.includes("jaun") || 
-          answer.includes("tach") || 
-          answer.includes("fissur") || 
-          answer.includes("champ") || 
-          answer.includes("infest") ||
-          answer.includes("préoccupants") ||
-          answer.includes("décolorées") ||
-          answer.includes("mortes") ||
-          answer.includes("cassées") ||
-          answer.includes("moisissures") ||
-          answer.includes("blessures") ||
-          answer.includes("cavités") ||
-          answer.includes("penche")
+          containsKeywords(answer, [
+            "jaun", "tach", "fissur", "champ", "infest", "préoccupants", 
+            "décolorées", "mortes", "cassées", "moisissures", "blessures", 
+            "cavités", "penche"
+          ])
         );
         
         const hasSevereProblems = Object.values(answers).some(answer => 
-          answer.includes("suint") || 
-          answer.includes("import") ||
-          answer.includes("Plus de 6 mois")
+          containsKeywords(answer, ["suint", "import", "Plus de 6 mois"])
         );
         
         if (hasSevereProblems) return "danger";
@@ -275,6 +279,8 @@ const DiagnosticContainer = ({ className }: DiagnosticContainerProps) => {
           options={questionData.options}
           subtitle={questionData.subtitle}
           onAnswer={handleAnswer}
+          multiSelect={questionData.multiSelect}
+          questionNumber={step}
         />
       );
     }

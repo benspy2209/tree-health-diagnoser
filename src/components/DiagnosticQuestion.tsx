@@ -8,9 +8,11 @@ import { Button } from "@/components/ui/button";
 interface DiagnosticQuestionProps {
   question: string;
   options: string[];
-  onAnswer: (answer: string) => void;
+  onAnswer: (answer: string | string[]) => void;
   className?: string;
   subtitle?: string;
+  multiSelect?: boolean;
+  questionNumber?: number;
 }
 
 const DiagnosticQuestion = ({
@@ -19,30 +21,72 @@ const DiagnosticQuestion = ({
   onAnswer,
   className,
   subtitle,
+  multiSelect = false,
+  questionNumber,
 }: DiagnosticQuestionProps) => {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
+  const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
   const [isAnimatingOut, setIsAnimatingOut] = useState(false);
   const [otherText, setOtherText] = useState("");
 
   useEffect(() => {
     setSelectedOption(null);
+    setSelectedOptions([]);
     setIsAnimatingOut(false);
     setOtherText("");
   }, [question]);
 
   const handleOptionClick = (option: string) => {
-    setSelectedOption(option);
-    
-    if (option === "Autre") {
-      // Don't submit yet if "Autre" is selected, wait for text input
-      return;
+    if (multiSelect) {
+      // Mode multi-sélection
+      if (option === "Autre") {
+        // Si "Autre" est cliqué en mode multi-sélection
+        if (!selectedOptions.includes("Autre")) {
+          setSelectedOptions(prev => [...prev, "Autre"]);
+        } else {
+          setSelectedOptions(prev => prev.filter(opt => opt !== "Autre"));
+          setOtherText("");
+        }
+      } else {
+        // Pour les autres options en mode multi-sélection
+        if (selectedOptions.includes(option)) {
+          setSelectedOptions(prev => prev.filter(opt => opt !== option));
+        } else {
+          setSelectedOptions(prev => [...prev, option]);
+        }
+      }
+    } else {
+      // Mode sélection unique (comportement existant)
+      setSelectedOption(option);
+      
+      if (option === "Autre") {
+        return; // Ne soumet pas encore si "Autre" est sélectionné
+      }
+      
+      setIsAnimatingOut(true);
+      
+      setTimeout(() => {
+        onAnswer(option);
+      }, 500);
     }
-    
-    setIsAnimatingOut(true);
-    
-    setTimeout(() => {
-      onAnswer(option);
-    }, 500);
+  };
+  
+  const handleMultiSelectionSubmit = () => {
+    if (selectedOptions.length > 0) {
+      let answers = [...selectedOptions];
+      
+      // Remplacer "Autre" par le texte spécifié si présent
+      if (selectedOptions.includes("Autre") && otherText.trim()) {
+        const index = answers.indexOf("Autre");
+        answers[index] = `Autre: ${otherText}`;
+      }
+      
+      setIsAnimatingOut(true);
+      
+      setTimeout(() => {
+        onAnswer(answers);
+      }, 500);
+    }
   };
   
   const handleOtherSubmit = () => {
@@ -90,6 +134,11 @@ const DiagnosticQuestion = ({
             transition={{ delay: 0.1, duration: 0.5 }}
           >
             {question}
+            {multiSelect && (
+              <span className="block text-base font-normal mt-2 text-natural-leaf">
+                Plusieurs choix possibles
+              </span>
+            )}
           </motion.h2>
           
           <div className="grid gap-4 md:grid-cols-2">
@@ -104,19 +153,27 @@ const DiagnosticQuestion = ({
                   "text-left p-4 rounded-xl border transition-all duration-300",
                   "hover:border-natural-leaf/50 hover:bg-accent/50",
                   "active:scale-98 focus:outline-none focus-visible:ring focus-visible:ring-natural-leaf/30",
-                  selectedOption === option 
-                    ? "border-natural-leaf bg-accent/50 ring-2 ring-natural-leaf/30" 
-                    : "border-border bg-card"
+                  multiSelect
+                    ? selectedOptions.includes(option)
+                      ? "border-natural-leaf bg-accent/50 ring-2 ring-natural-leaf/30"
+                      : "border-border bg-card"
+                    : selectedOption === option
+                      ? "border-natural-leaf bg-accent/50 ring-2 ring-natural-leaf/30"
+                      : "border-border bg-card"
                 )}
               >
                 <span className="flex items-center gap-3">
                   <span className={cn(
                     "flex items-center justify-center w-6 h-6 rounded-full text-xs font-medium",
-                    selectedOption === option 
-                      ? "bg-natural-leaf text-white" 
-                      : "bg-muted text-muted-foreground"
+                    multiSelect
+                      ? selectedOptions.includes(option)
+                        ? "bg-natural-leaf text-white"
+                        : "bg-muted text-muted-foreground"
+                      : selectedOption === option
+                        ? "bg-natural-leaf text-white"
+                        : "bg-muted text-muted-foreground"
                   )}>
-                    {index + 1}
+                    {multiSelect ? (selectedOptions.includes(option) ? "✓" : " ") : index + 1}
                   </span>
                   <span className="font-medium">{option}</span>
                 </span>
@@ -124,7 +181,8 @@ const DiagnosticQuestion = ({
             ))}
           </div>
           
-          {selectedOption === "Autre" && (
+          {((multiSelect && selectedOptions.includes("Autre")) || 
+             (!multiSelect && selectedOption === "Autre")) && (
             <motion.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
@@ -137,10 +195,38 @@ const DiagnosticQuestion = ({
                 className="w-full"
                 onKeyDown={(e) => {
                   if (e.key === "Enter") {
-                    handleOtherSubmit();
+                    if (multiSelect) {
+                      handleMultiSelectionSubmit();
+                    } else {
+                      handleOtherSubmit();
+                    }
                   }
                 }}
               />
+            </motion.div>
+          )}
+          
+          {multiSelect && selectedOptions.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="mt-8"
+            >
+              <Button 
+                onClick={handleMultiSelectionSubmit}
+                className="bg-natural-leaf hover:bg-natural-leaf/90 text-white w-full"
+              >
+                Valider ({selectedOptions.length} sélection{selectedOptions.length > 1 ? 's' : ''})
+              </Button>
+            </motion.div>
+          )}
+          
+          {!multiSelect && selectedOption === "Autre" && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="mt-4"
+            >
               <Button 
                 onClick={handleOtherSubmit}
                 disabled={!otherText.trim()}
