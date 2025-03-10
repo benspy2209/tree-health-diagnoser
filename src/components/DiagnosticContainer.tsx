@@ -33,6 +33,29 @@ const defaultQuestions = [
     ]
   },
   {
+    question: "Quels problèmes avez-vous observés ?",
+    subtitle: "Symptômes Observés",
+    options: [
+      "Feuilles décolorées",
+      "Branches mortes ou cassées",
+      "Champignons ou moisissures",
+      "Fissures ou blessures",
+      "Présence de cavités",
+      "Autre"
+    ]
+  },
+  {
+    question: "Depuis combien de temps ?",
+    subtitle: "Symptômes Observés",
+    options: [
+      "Moins d'une semaine",
+      "1 à 4 semaines",
+      "1 à 6 mois",
+      "Plus de 6 mois",
+      "Je ne sais pas"
+    ]
+  },
+  {
     question: "Comment sont les feuilles de l'arbre ?",
     options: ["Vertes et saines", "Jaunies ou décolorées", "Tachées ou trouées", "L'arbre n'a pas de feuilles"]
   },
@@ -112,12 +135,19 @@ const DiagnosticContainer = ({ className }: DiagnosticContainerProps) => {
           answer.includes("fissur") || 
           answer.includes("champ") || 
           answer.includes("infest") ||
-          answer.includes("préoccupants")
+          answer.includes("préoccupants") ||
+          answer.includes("décolorées") ||
+          answer.includes("mortes") ||
+          answer.includes("cassées") ||
+          answer.includes("moisissures") ||
+          answer.includes("blessures") ||
+          answer.includes("cavités")
         );
         
         const hasSevereProblems = Object.values(answers).some(answer => 
           answer.includes("suint") || 
-          answer.includes("import")
+          answer.includes("import") ||
+          answer.includes("Plus de 6 mois")
         );
         
         if (hasSevereProblems) return "danger";

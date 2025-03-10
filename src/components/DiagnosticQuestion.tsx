@@ -2,6 +2,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
+import { Input } from "@/components/ui/input";
 
 interface DiagnosticQuestionProps {
   question: string;
@@ -20,19 +21,37 @@ const DiagnosticQuestion = ({
 }: DiagnosticQuestionProps) => {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [isAnimatingOut, setIsAnimatingOut] = useState(false);
+  const [otherText, setOtherText] = useState("");
 
   useEffect(() => {
     setSelectedOption(null);
     setIsAnimatingOut(false);
+    setOtherText("");
   }, [question]);
 
   const handleOptionClick = (option: string) => {
     setSelectedOption(option);
+    
+    if (option === "Autre") {
+      // Don't submit yet if "Autre" is selected, wait for text input
+      return;
+    }
+    
     setIsAnimatingOut(true);
     
     setTimeout(() => {
       onAnswer(option);
     }, 500);
+  };
+  
+  const handleOtherSubmit = () => {
+    if (otherText.trim()) {
+      setIsAnimatingOut(true);
+      
+      setTimeout(() => {
+        onAnswer(`Autre: ${otherText}`);
+      }, 500);
+    }
   };
 
   return (
@@ -103,6 +122,33 @@ const DiagnosticQuestion = ({
               </motion.button>
             ))}
           </div>
+          
+          {selectedOption === "Autre" && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              className="mt-4 space-y-4"
+            >
+              <Input
+                value={otherText}
+                onChange={(e) => setOtherText(e.target.value)}
+                placeholder="Précisez..."
+                className="w-full"
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    handleOtherSubmit();
+                  }
+                }}
+              />
+              <Button 
+                onClick={handleOtherSubmit}
+                disabled={!otherText.trim()}
+                className="bg-natural-leaf hover:bg-natural-leaf/90 text-white w-full"
+              >
+                Valider
+              </Button>
+            </motion.div>
+          )}
         </motion.div>
       </AnimatePresence>
     </motion.div>
