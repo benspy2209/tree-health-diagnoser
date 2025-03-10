@@ -1,10 +1,10 @@
 
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Index from './pages/Index';
 import NotFound from './pages/NotFound';
 import './App.css';
 
-// Récupérer le chemin de base depuis l'environnement ou utiliser celui défini dans vite.config.ts
+// Récupérer le chemin de base pour le déploiement à www.plumridge.be/diagnostic/
 const BASE_PATH = '/diagnostic';
 
 function App() {
