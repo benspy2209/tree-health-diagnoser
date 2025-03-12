@@ -6,8 +6,8 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  // Pour Netlify, nous n'avons pas besoin de sous-chemin comme '/diagnostic/'
-  base: '/',
+  // Configuration pour utiliser le sous-chemin '/diagnostic/'
+  base: '/diagnostic/',
   server: {
     host: "::",
     port: 8080,

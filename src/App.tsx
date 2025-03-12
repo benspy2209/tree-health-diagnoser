@@ -4,8 +4,8 @@ import Index from './pages/Index';
 import NotFound from './pages/NotFound';
 import './App.css';
 
-// Pour Netlify, nous n'avons pas besoin de sous-chemin
-const BASE_PATH = '';
+// Configuration pour utiliser le sous-chemin '/diagnostic/'
+const BASE_PATH = '/diagnostic';
 
 function App() {
   return (
