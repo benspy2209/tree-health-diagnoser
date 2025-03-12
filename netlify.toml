@@ -3,9 +3,13 @@
   command = "npm run build"
   publish = "dist"
 
+# Configuration pour les variables d'environnement
+[build.environment]
+  # Ne pas mettre votre clé API réelle ici, c'est juste pour indiquer que la variable sera utilisée
+  # OPENAI_API_KEY = "votre-cle-api-ici"
+
 # Règle de redirection pour les applications SPA avec sous-domaine
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
-
