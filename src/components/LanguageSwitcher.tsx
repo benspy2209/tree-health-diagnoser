@@ -1,52 +1,38 @@
 
 import { useLanguage } from "@/i18n/LanguageContext";
 import { Button } from "@/components/ui/button";
-import { Check, GlobeIcon } from "lucide-react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 
 interface LanguageOption {
   value: "fr" | "en" | "nl";
   label: string;
-  flag: string;
 }
 
 export function LanguageSwitcher() {
-  const { language, setLanguage, t } = useLanguage();
+  const { language, setLanguage } = useLanguage();
 
   const languages: LanguageOption[] = [
-    { value: "fr", label: "Français", flag: "🇫🇷" },
-    { value: "en", label: "English", flag: "🇬🇧" },
-    { value: "nl", label: "Nederlands", flag: "🇳🇱" },
+    { value: "fr", label: "FR" },
+    { value: "en", label: "EN" },
+    { value: "nl", label: "NL" },
   ];
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="sm" className="gap-2">
-          <GlobeIcon className="h-4 w-4" />
-          <span>{languages.find(lang => lang.value === language)?.flag}</span>
+    <div className="flex space-x-2">
+      {languages.map((lang) => (
+        <Button
+          key={lang.value}
+          onClick={() => setLanguage(lang.value)}
+          variant={language === lang.value ? "default" : "outline"}
+          size="sm"
+          className={`px-3 min-w-11 ${
+            language === lang.value 
+              ? "bg-natural-leaf text-white" 
+              : "text-natural-leaf border-natural-leaf border"
+          }`}
+        >
+          {lang.label}
         </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-40">
-        {languages.map((lang) => (
-          <DropdownMenuItem
-            key={lang.value}
-            onClick={() => setLanguage(lang.value)}
-            className="flex items-center justify-between cursor-pointer"
-          >
-            <span className="flex items-center gap-2">
-              <span>{lang.flag}</span>
-              <span>{lang.label}</span>
-            </span>
-            {language === lang.value && <Check className="h-4 w-4" />}
-          </DropdownMenuItem>
-        ))}
-      </DropdownMenuContent>
-    </DropdownMenu>
+      ))}
+    </div>
   );
 }
