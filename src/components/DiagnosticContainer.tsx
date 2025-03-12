@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import DiagnosticHeader from "./DiagnosticHeader";
@@ -9,7 +10,7 @@ import AnalyzingState from "./AnalyzingState";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ArrowLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { generateDiagnostic } from "@/services/openAIService";
+import { generateDiagnostic, isApiKeySet } from "@/services/openAIService";
 import { toast } from "@/hooks/use-toast";
 
 const defaultQuestions = [
@@ -96,6 +97,15 @@ const DiagnosticContainer = ({ className }: DiagnosticContainerProps) => {
         toast({
           title: "Aucune image",
           description: "Veuillez télécharger au moins une image pour continuer ou revenir en arrière pour modifier vos réponses",
+          variant: "destructive"
+        });
+        return;
+      }
+
+      if (!isApiKeySet()) {
+        toast({
+          title: "Erreur de configuration",
+          description: "L'API OpenAI n'est pas correctement configurée. Veuillez contacter l'administrateur du site.",
           variant: "destructive"
         });
         return;
