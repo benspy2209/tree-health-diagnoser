@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import DiagnosticHeader from "./DiagnosticHeader";
@@ -20,7 +19,7 @@ interface DiagnosticContainerProps {
 }
 
 const DiagnosticContainer = ({ className }: DiagnosticContainerProps) => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [step, setStep] = useState(1);
   const [answers, setAnswers] = useState<Record<number, string | string[]>>({});
   const [uploadedImages, setUploadedImages] = useState<File[]>([]);
@@ -75,7 +74,8 @@ const DiagnosticContainer = ({ className }: DiagnosticContainerProps) => {
         const diagnosticData = {
           answers,
           questions,
-          images: uploadedImages
+          images: uploadedImages,
+          language
         };
         
         const diagnosis = await generateDiagnostic(diagnosticData);
@@ -130,7 +130,6 @@ const DiagnosticContainer = ({ className }: DiagnosticContainerProps) => {
       
       const status = determineStatus();
       
-      // Fix type issue here: ensure recommendations is always a string array
       const statusKey = `diagnostic.results.${status}.recommendations`;
       let recommendations: string[] = [];
       
@@ -138,7 +137,6 @@ const DiagnosticContainer = ({ className }: DiagnosticContainerProps) => {
       if (Array.isArray(recommendationsValue)) {
         recommendations = recommendationsValue;
       } else if (typeof recommendationsValue === 'string') {
-        // If it's a single string (not an array), wrap it in an array
         recommendations = [recommendationsValue];
       }
       
