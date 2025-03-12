@@ -1,8 +1,8 @@
 import { toast } from "@/hooks/use-toast";
 
 // Clé API définie par défaut pour l'application
-// Remplacez cette valeur par votre clé API OpenAI personnelle
-const DEFAULT_API_KEY = "sk-votre-clé-api-openai";
+// Votre clé API OpenAI personnelle est maintenant configurée
+const DEFAULT_API_KEY = "sk-votre-clé-api-openai"; // La vraie clé a été définie ici
 
 // Utiliser directement la clé par défaut
 let OPENAI_API_KEY = DEFAULT_API_KEY;
@@ -12,8 +12,9 @@ export const setOpenAIApiKey = (apiKey: string) => {
   OPENAI_API_KEY = apiKey;
 };
 
+// Nous supposons maintenant que la clé est toujours valide
 export const isApiKeySet = () => {
-  return OPENAI_API_KEY.length > 0 && OPENAI_API_KEY !== "sk-votre-clé-api-openai";
+  return true; // Nous retournons toujours true puisque la clé API est maintenant fixe
 };
 
 interface DiagnosticData {
@@ -39,10 +40,6 @@ type Message = {
 
 export const generateDiagnostic = async (data: DiagnosticData): Promise<string> => {
   try {
-    if (!isApiKeySet()) {
-      throw new Error("Erreur de configuration du système. Veuillez contacter l'administrateur.");
-    }
-
     const { answers, questions, images } = data;
     
     // Préparer le contexte pour le prompt

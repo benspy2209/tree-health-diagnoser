@@ -9,9 +9,8 @@ import AnalyzingState from "./AnalyzingState";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ArrowLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { generateDiagnostic, isApiKeySet } from "@/services/openAIService";
+import { generateDiagnostic } from "@/services/openAIService";
 import { toast } from "@/hooks/use-toast";
-import ApiKeyInput from "./ApiKeyInput";
 
 const defaultQuestions = [
   {
@@ -70,7 +69,6 @@ const DiagnosticContainer = ({ className }: DiagnosticContainerProps) => {
   const [uploadedImages, setUploadedImages] = useState<File[]>([]);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [aiDiagnostic, setAiDiagnostic] = useState<string | null>(null);
-  const [needsApiKey, setNeedsApiKey] = useState(!isApiKeySet());
   
   const questions = defaultQuestions;
   const totalSteps = questions.length + 2; // Questions + Image upload + Results
@@ -98,15 +96,6 @@ const DiagnosticContainer = ({ className }: DiagnosticContainerProps) => {
         toast({
           title: "Aucune image",
           description: "Veuillez télécharger au moins une image pour continuer ou revenir en arrière pour modifier vos réponses",
-          variant: "destructive"
-        });
-        return;
-      }
-
-      if (!isApiKeySet()) {
-        toast({
-          title: "Configuration requise",
-          description: "Le système n'est pas correctement configuré. Veuillez contacter l'administrateur du site.",
           variant: "destructive"
         });
         return;
@@ -153,15 +142,7 @@ const DiagnosticContainer = ({ className }: DiagnosticContainerProps) => {
     setAiDiagnostic(null);
   };
   
-  const handleApiKeySet = () => {
-    setNeedsApiKey(false);
-  };
-  
   const renderContent = () => {
-    if (needsApiKey) {
-      return <ApiKeyInput onKeySet={handleApiKeySet} />;
-    }
-    
     if (isAnalyzing) {
       return <AnalyzingState />;
     }
@@ -317,7 +298,7 @@ const DiagnosticContainer = ({ className }: DiagnosticContainerProps) => {
       >
         <AnimatePresence mode="wait">
           <motion.div
-            key={`step-${step}-${isAnalyzing}-${needsApiKey}`}
+            key={`step-${step}-${isAnalyzing}`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
@@ -328,7 +309,7 @@ const DiagnosticContainer = ({ className }: DiagnosticContainerProps) => {
           </motion.div>
         </AnimatePresence>
         
-        {!isAnalyzing && !needsApiKey && step !== questions.length + 2 && (
+        {!isAnalyzing && step !== questions.length + 2 && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
