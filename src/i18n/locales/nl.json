@@ -88,6 +88,7 @@
     },
     "results": {
       "customTitle": "Diagnose van uw boom",
+      "recommendations": "Aanbevelingen",
       "healthy": {
         "title": "Uw boom lijkt gezond",
         "description": "Op basis van de verstrekte informatie vertoont uw boom geen tekenen van grote problemen.",

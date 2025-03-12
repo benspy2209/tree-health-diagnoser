@@ -88,6 +88,7 @@
     },
     "results": {
       "customTitle": "Your tree diagnosis",
+      "recommendations": "Recommendations",
       "healthy": {
         "title": "Your tree seems healthy",
         "description": "Based on the information provided, your tree does not show signs of major problems.",

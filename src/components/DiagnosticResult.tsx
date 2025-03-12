@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Check, AlertTriangle, Info, Trees, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 type ResultStatus = "healthy" | "warning" | "danger" | "unknown" | "custom";
 
@@ -46,6 +47,7 @@ const DiagnosticResult = ({
   onRestart,
   className,
 }: DiagnosticResultProps) => {
+  const { t } = useLanguage();
   // Pour un diagnostic personnalisé (issu de l'API OpenAI), on affiche directement la description
   const isCustomDiagnostic = status === "custom";
 
@@ -69,24 +71,33 @@ const DiagnosticResult = ({
       const line = lines[i].trim();
       
       // Déterminer la section en fonction des titres habituels
-      if (line.toLowerCase().includes("rapport provisoire")) {
+      if (line.toLowerCase().includes("rapport provisoire") || 
+          line.toLowerCase().includes("preliminary report") || 
+          line.toLowerCase().includes("voorlopig rapport")) {
         sections.title.push(<h1 key={`title-${i}`} className="text-2xl font-bold text-natural-leaf mb-4">{line}</h1>);
         currentSection = "title";
       } 
-      else if (line.toLowerCase().includes("analyse de l'arbre")) {
+      else if (line.toLowerCase().includes("analyse de l'arbre") || 
+               line.toLowerCase().includes("tree analysis") || 
+               line.toLowerCase().includes("boomanalyse")) {
         sections.analysis.push(<h2 key={`analysis-${i}`} className="text-xl font-semibold text-natural-leaf mt-5 mb-3">{line}</h2>);
         currentSection = "analysis";
       } 
-      else if (line.toLowerCase().includes("diagnostic probable")) {
+      else if (line.toLowerCase().includes("diagnostic probable") || 
+               line.toLowerCase().includes("probable diagnosis") || 
+               line.toLowerCase().includes("waarschijnlijke diagnose")) {
         sections.diagnosis.push(<h2 key={`diagnosis-${i}`} className="text-xl font-semibold text-natural-leaf mt-5 mb-3">{line}</h2>);
         currentSection = "diagnosis";
-        // Préparer l'interprétation des bullet points
       } 
-      else if (line.toLowerCase().includes("recommandations")) {
+      else if (line.toLowerCase().includes("recommandation") || 
+               line.toLowerCase().includes("recommendation") || 
+               line.toLowerCase().includes("aanbeveling")) {
         sections.recommendations.push(<h2 key={`recommendations-${i}`} className="text-xl font-semibold text-natural-leaf mt-5 mb-3">{line}</h2>);
         currentSection = "recommendations";
       } 
-      else if (line.toLowerCase().includes("prochaine étape")) {
+      else if ((line.toLowerCase().includes("prochaine étape") || 
+                line.toLowerCase().includes("next step") || 
+                line.toLowerCase().includes("volgende stap"))) {
         sections.nextSteps.push(<h2 key={`nextSteps-${i}`} className="text-xl font-semibold text-natural-leaf mt-5 mb-3">{line}</h2>);
         currentSection = "nextSteps";
       } 
@@ -231,7 +242,7 @@ const DiagnosticResult = ({
             statusClasses[status]
           )}
         >
-          <h3 className="font-semibold mb-3">Recommandations :</h3>
+          <h3 className="font-semibold mb-3">{t("diagnostic.results.recommendations")}:</h3>
           <ul className="space-y-2">
             {recommendations.map((recommendation, index) => (
               <motion.li
@@ -259,7 +270,7 @@ const DiagnosticResult = ({
           onClick={onRestart} 
           className="bg-natural-leaf hover:bg-natural-leaf/90 text-white"
         >
-          Démarrer un nouveau diagnostic
+          {t("diagnostic.buttons.newDiagnostic")}
         </Button>
         <Button 
           variant="outline"
@@ -267,7 +278,7 @@ const DiagnosticResult = ({
           className="border-natural-leaf text-natural-leaf hover:bg-natural-leaf/10"
         >
           <ArrowLeft className="mr-2 h-4 w-4" />
-          Retour au site
+          {t("diagnostic.buttons.backToSite")}
         </Button>
       </motion.div>
     </motion.div>

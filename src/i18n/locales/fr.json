@@ -88,6 +88,7 @@
     },
     "results": {
       "customTitle": "Diagnostic de votre arbre",
+      "recommendations": "Recommandations",
       "healthy": {
         "title": "Votre arbre semble en bonne santé",
         "description": "D'après les informations fournies, votre arbre ne présente pas de signes de problèmes majeurs.",
