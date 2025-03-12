@@ -1,5 +1,5 @@
 
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { LanguageProvider } from './i18n/LanguageProvider';
 import Index from './pages/Index';
 import NotFound from './pages/NotFound';
@@ -9,8 +9,8 @@ const BASE_PATH = '';
 
 function App() {
   return (
-    <LanguageProvider>
-      <BrowserRouter basename={BASE_PATH}>
+    <BrowserRouter basename={BASE_PATH}>
+      <LanguageProvider>
         <Routes>
           {/* Routes avec préfixe de langue */}
           <Route path="/fr/*" element={
@@ -36,8 +36,8 @@ function App() {
           <Route path="/" element={<Index />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
-      </BrowserRouter>
-    </LanguageProvider>
+      </LanguageProvider>
+    </BrowserRouter>
   );
 }
 

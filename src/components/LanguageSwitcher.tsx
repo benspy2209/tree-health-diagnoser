@@ -1,7 +1,6 @@
 
 import { useLanguage } from "@/i18n/LanguageContext";
 import { Button } from "@/components/ui/button";
-import { useNavigate, useLocation } from "react-router-dom";
 
 interface LanguageOption {
   value: "fr" | "en" | "nl";
@@ -10,8 +9,6 @@ interface LanguageOption {
 
 export function LanguageSwitcher() {
   const { language, setLanguage } = useLanguage();
-  const navigate = useNavigate();
-  const location = useLocation();
 
   const languages: LanguageOption[] = [
     { value: "fr", label: "FR" },
