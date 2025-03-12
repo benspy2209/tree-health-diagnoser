@@ -19,8 +19,6 @@ const Index = () => {
       </header>
       
       <main className="flex-1 py-4 px-4">
-        <h1 className="text-2xl font-bold text-center mb-8">{t('title')}</h1>
-        
         <div className="w-full max-w-4xl mx-auto">
           <DiagnosticContainer />
         </div>
