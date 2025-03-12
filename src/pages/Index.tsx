@@ -12,7 +12,7 @@ const Index = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.6 }}
-      className="min-h-screen flex flex-col bg-natural-light"
+      className="min-h-screen flex flex-col bg-[#F3F1EB]"
     >
       <header className="w-full flex justify-end p-4">
         <LanguageSwitcher />
