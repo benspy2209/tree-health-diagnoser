@@ -1,6 +1,5 @@
-
 import { motion } from "framer-motion";
-import { Check, AlertTriangle, Info, Trees, ArrowLeft } from "lucide-react";
+import { Check, AlertTriangle, Info, Trees } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/i18n/LanguageContext";
@@ -48,12 +47,9 @@ const DiagnosticResult = ({
   className,
 }: DiagnosticResultProps) => {
   const { t } = useLanguage();
-  // Pour un diagnostic personnalisé (issu de l'API OpenAI), on affiche directement la description
   const isCustomDiagnostic = status === "custom";
 
-  // Cette fonction prend du texte brut et extrait les sections selon le format de l'API OpenAI
   const formatCustomDiagnostic = (content: string) => {
-    // Séparation du contenu en sections
     const sections: { [key: string]: JSX.Element[] } = {
       title: [],
       analysis: [],
@@ -64,13 +60,11 @@ const DiagnosticResult = ({
     
     let currentSection = "title";
     
-    // Diviser le contenu en lignes
     const lines = content.split('\n').filter(line => line.trim() !== '');
     
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i].trim();
       
-      // Déterminer la section en fonction des titres habituels - utiliser les clés de traduction
       if (line.toLowerCase().includes(t("diagnostic.results.report.preliminary").toLowerCase())) {
         sections.title.push(<h1 key={`title-${i}`} className="text-2xl font-bold text-natural-leaf mb-4">{line}</h1>);
         currentSection = "title";
@@ -92,10 +86,8 @@ const DiagnosticResult = ({
         currentSection = "nextSteps";
       } 
       else {
-        // Traitement des bullet points pour les sections de diagnostic et recommandations
         if (currentSection === "diagnosis" || currentSection === "recommendations") {
           if (line.startsWith('*') || line.startsWith('-') || /^\d+\./.test(line)) {
-            // C'est un bullet point, extraire le titre et le contenu
             const bulletContentMatch = line.match(/^(?:\*|\-|\d+\.)\s*(?:\*\*)?([^:]*?)(?:\*\*)?:?(.*)/);
             
             if (bulletContentMatch) {
@@ -113,7 +105,6 @@ const DiagnosticResult = ({
                 </div>
               );
             } else {
-              // Bullet simple sans titre en gras
               sections[currentSection].push(
                 <div key={`bullet-${i}`} className="flex items-start mb-4">
                   <div className="h-5 w-5 rounded-full bg-natural-leaf/20 flex items-center justify-center mt-1 mr-3">
@@ -124,12 +115,9 @@ const DiagnosticResult = ({
               );
             }
           } else {
-            // Texte normal de paragraphe
             sections[currentSection].push(<p key={`p-${i}`} className="mb-3 text-gray-700">{line}</p>);
           }
         } else {
-          // Texte normal de paragraphe pour les autres sections
-          // Rendre l'email info@plumridge.be cliquable en cherchant cette adresse dans le texte
           if (line.includes("info@plumridge.be")) {
             const parts = line.split(/(info@plumridge\.be)/);
             sections[currentSection].push(
@@ -254,21 +242,13 @@ const DiagnosticResult = ({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.8, duration: 0.5 }}
-        className="flex justify-center gap-4 mt-8"
+        className="flex justify-center mt-8"
       >
         <Button 
           onClick={onRestart} 
           className="bg-natural-leaf hover:bg-natural-leaf/90 text-white"
         >
           {t("diagnostic.buttons.newDiagnostic")}
-        </Button>
-        <Button 
-          variant="outline"
-          onClick={() => window.location.href = 'https://www.plumridge.be/'}
-          className="border-natural-leaf text-natural-leaf hover:bg-natural-leaf/10"
-        >
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          {t("diagnostic.buttons.backToSite")}
         </Button>
       </motion.div>
     </motion.div>
