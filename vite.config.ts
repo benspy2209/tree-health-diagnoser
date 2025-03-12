@@ -6,7 +6,8 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  base: '/diagnostic/',  // Ajout du chemin de base pour le déploiement dans un sous-dossier
+  // En développement, utiliser '/' comme base, en production utiliser '/diagnostic/'
+  base: mode === 'production' ? '/diagnostic/' : '/',
   server: {
     host: "::",
     port: 8080,

@@ -4,8 +4,9 @@ import Index from './pages/Index';
 import NotFound from './pages/NotFound';
 import './App.css';
 
-// Récupérer le chemin de base pour le déploiement à www.plumridge.be/diagnostic/
-const BASE_PATH = '/diagnostic';
+// Récupérer le chemin de base pour le déploiement
+// En développement, utiliser '' comme base, en production utiliser '/diagnostic'
+const BASE_PATH = import.meta.env.MODE === 'production' ? '/diagnostic' : '';
 
 function App() {
   return (
