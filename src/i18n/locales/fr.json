@@ -56,7 +56,10 @@
         "details": "Si applicable : champignons, moisissures, cavités"
       }
     },
-    "analyzing": "Analyse en cours...",
+    "analyzing": {
+      "title": "Analyse en cours...",
+      "description": "Nous analysons vos réponses et les images téléchargées pour établir un diagnostic précis"
+    },
     "buttons": {
       "previous": "Précédent",
       "analyze": "Analyser",

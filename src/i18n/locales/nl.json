@@ -56,7 +56,10 @@
         "details": "Indien van toepassing: schimmels, schimmelgroei, holtes"
       }
     },
-    "analyzing": "Analyse bezig...",
+    "analyzing": {
+      "title": "Analyse bezig...",
+      "description": "We analyseren uw antwoorden en geüploade afbeeldingen om een nauwkeurige diagnose vast te stellen"
+    },
     "buttons": {
       "previous": "Vorige",
       "analyze": "Analyseren",

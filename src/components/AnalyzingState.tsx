@@ -2,12 +2,15 @@
 import { motion } from "framer-motion";
 import { TreeDeciduous } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 interface AnalyzingStateProps {
   className?: string;
 }
 
 const AnalyzingState = ({ className }: AnalyzingStateProps) => {
+  const { t } = useLanguage();
+  
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -50,7 +53,7 @@ const AnalyzingState = ({ className }: AnalyzingStateProps) => {
         animate={{ opacity: [0.7, 1, 0.7] }}
         transition={{ duration: 1.5, repeat: Infinity }}
       >
-        Analyse en cours...
+        {t("diagnostic.analyzing.title")}
       </motion.h2>
       
       <motion.p
@@ -58,7 +61,7 @@ const AnalyzingState = ({ className }: AnalyzingStateProps) => {
         animate={{ opacity: [0.6, 0.8, 0.6] }}
         transition={{ duration: 2, repeat: Infinity, delay: 0.3 }}
       >
-        Nous analysons vos réponses et les images téléchargées pour établir un diagnostic précis
+        {t("diagnostic.analyzing.description")}
       </motion.p>
       
       {/* Indicateur de progression */}

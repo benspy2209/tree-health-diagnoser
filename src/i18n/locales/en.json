@@ -56,7 +56,10 @@
         "details": "If applicable: fungi, mold, cavities"
       }
     },
-    "analyzing": "Analysis in progress...",
+    "analyzing": {
+      "title": "Analysis in progress...",
+      "description": "We are analyzing your answers and uploaded images to establish an accurate diagnosis"
+    },
     "buttons": {
       "previous": "Previous",
       "analyze": "Analyze",
