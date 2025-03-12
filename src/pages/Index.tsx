@@ -1,7 +1,6 @@
 
 import { motion } from "framer-motion";
 import DiagnosticContainer from "@/components/DiagnosticContainer";
-import IframeViewer from "@/components/IframeViewer";
 
 const Index = () => {
   return (
@@ -14,16 +13,7 @@ const Index = () => {
       <main className="flex-1 py-8 px-4">
         <h1 className="text-2xl font-bold text-center mb-8">Diagnostic de Santé des Arbres</h1>
         
-        <div className="w-full max-w-4xl mx-auto mb-8">
-          <h2 className="text-xl font-semibold mb-4">Application intégrée</h2>
-          <IframeViewer 
-            url="https://diagnostic.plumridge.be/" 
-            title="Diagnostic de Santé des Arbres" 
-          />
-        </div>
-        
-        <div className="border-t border-border pt-8 mt-8">
-          <h2 className="text-xl font-semibold mb-4">Version locale</h2>
+        <div className="w-full max-w-4xl mx-auto">
           <DiagnosticContainer />
         </div>
       </main>
