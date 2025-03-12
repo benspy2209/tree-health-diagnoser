@@ -1,4 +1,3 @@
-
 {
   "title": "Tree Health Diagnosis",
   "footer": "© 2025 Tree Health Diagnosis - All rights reserved",
@@ -124,5 +123,21 @@
         ]
       }
     }
+  },
+  "imageUploader": {
+    "title": "Upload your photos",
+    "description": "Take or upload up to 5 clear photos of the tree to improve the diagnosis (max 30 MB)",
+    "dropzone": {
+      "title": "Drop your images here",
+      "description": "Or click to browse your files",
+      "fileTypes": "JPG, PNG or GIF • Maximum 5 photos of 30 MB each"
+    },
+    "buttons": {
+      "browse": "Browse files",
+      "camera": "Take a photo"
+    },
+    "addMore": "Add a photo",
+    "step": "Step",
+    "of": "of"
   }
 }

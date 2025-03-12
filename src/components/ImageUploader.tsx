@@ -1,10 +1,10 @@
-
 import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Upload, X, Image as ImageIcon, Camera, Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 interface ImageUploaderProps {
   onImageUpload: (files: File[]) => void;
@@ -16,6 +16,7 @@ const MAX_SIZE_MB = 30;
 const MAX_SIZE_BYTES = MAX_SIZE_MB * 1024 * 1024;
 
 const ImageUploader = ({ onImageUpload, className }: ImageUploaderProps) => {
+  const { t } = useLanguage();
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -28,7 +29,6 @@ const ImageUploader = ({ onImageUpload, className }: ImageUploaderProps) => {
   };
 
   const handleFiles = (newFiles: File[]) => {
-    // Vérifier si le nombre total d'images ne dépasse pas la limite
     if (previewUrls.length + newFiles.length > MAX_IMAGES) {
       toast({
         title: "Limite atteinte",
@@ -38,7 +38,6 @@ const ImageUploader = ({ onImageUpload, className }: ImageUploaderProps) => {
       return;
     }
 
-    // Vérifier que tous les fichiers sont des images et ne dépassent pas la taille maximale
     const validFiles = newFiles.filter(file => {
       if (!file.type.startsWith("image/")) {
         toast({
@@ -63,17 +62,13 @@ const ImageUploader = ({ onImageUpload, className }: ImageUploaderProps) => {
 
     if (validFiles.length === 0) return;
 
-    // Créer les URLs de prévisualisation
     const newUrls = validFiles.map(file => URL.createObjectURL(file));
     const updatedUrls = [...previewUrls, ...newUrls];
     
     setPreviewUrls(updatedUrls);
     
-    // Notifier le parent des fichiers téléchargés
-    // Récupérer les fichiers actuels si nécessaire
     onImageUpload(validFiles);
     
-    // Réinitialiser l'input file pour permettre la sélection du même fichier
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
@@ -99,15 +94,12 @@ const ImageUploader = ({ onImageUpload, className }: ImageUploaderProps) => {
   };
 
   const removeImage = (index: number) => {
-    // Libérer l'URL de l'objet
     URL.revokeObjectURL(previewUrls[index]);
     
-    // Mettre à jour l'état
     const updatedUrls = previewUrls.filter((_, i) => i !== index);
     setPreviewUrls(updatedUrls);
     
-    // Notifier le parent de la suppression
-    onImageUpload([]); // On réinitialise, le composant parent devra gérer la suppression
+    onImageUpload([]);
   };
 
   const triggerFileInput = () => {
@@ -124,9 +116,9 @@ const ImageUploader = ({ onImageUpload, className }: ImageUploaderProps) => {
       className={cn("w-full max-w-2xl mx-auto", className)}
     >
       <div className="text-center mb-6">
-        <h2 className="text-2xl font-semibold mb-2">Téléchargez vos photos</h2>
+        <h2 className="text-2xl font-semibold mb-2">{t("imageUploader.title")}</h2>
         <p className="text-muted-foreground">
-          Prenez ou téléchargez jusqu'à 5 photos claires de l'arbre pour améliorer le diagnostic (max 30 Mo)
+          {t("imageUploader.description")}
         </p>
       </div>
 
@@ -176,7 +168,7 @@ const ImageUploader = ({ onImageUpload, className }: ImageUploaderProps) => {
               onClick={triggerFileInput}
             >
               <Plus size={24} className="text-muted-foreground mb-2" />
-              <span className="text-sm text-muted-foreground">Ajouter une photo</span>
+              <span className="text-sm text-muted-foreground">{t("imageUploader.addMore")}</span>
             </motion.div>
           )}
         </div>
@@ -205,12 +197,12 @@ const ImageUploader = ({ onImageUpload, className }: ImageUploaderProps) => {
               <div className="rounded-full bg-muted/50 p-4 mb-4">
                 <Upload size={24} className="text-muted-foreground" />
               </div>
-              <h3 className="text-lg font-medium mb-1">Déposez vos images ici</h3>
+              <h3 className="text-lg font-medium mb-1">{t("imageUploader.dropzone.title")}</h3>
               <p className="text-muted-foreground text-sm mb-4">
-                Ou cliquez pour parcourir vos fichiers
+                {t("imageUploader.dropzone.description")}
               </p>
               <p className="text-xs text-muted-foreground">
-                JPG, PNG ou GIF • Maximum {MAX_IMAGES} photos de {MAX_SIZE_MB} Mo chacune
+                {t("imageUploader.dropzone.fileTypes")}
               </p>
             </div>
           </motion.div>
@@ -224,7 +216,7 @@ const ImageUploader = ({ onImageUpload, className }: ImageUploaderProps) => {
           onClick={triggerFileInput}
         >
           <ImageIcon size={18} className="mr-2" />
-          Parcourir les fichiers
+          {t("imageUploader.buttons.browse")}
         </Button>
         <Button
           variant="outline"
@@ -235,7 +227,7 @@ const ImageUploader = ({ onImageUpload, className }: ImageUploaderProps) => {
           }}
         >
           <Camera size={18} className="mr-2" />
-          Prendre une photo
+          {t("imageUploader.buttons.camera")}
         </Button>
       </div>
     </motion.div>

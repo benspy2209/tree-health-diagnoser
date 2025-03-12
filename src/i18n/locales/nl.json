@@ -1,4 +1,3 @@
-
 {
   "title": "Boomgezondheidsdiagnose",
   "footer": "© 2025 Boomgezondheidsdiagnose - Alle rechten voorbehouden",
@@ -124,5 +123,21 @@
         ]
       }
     }
+  },
+  "imageUploader": {
+    "title": "Upload uw foto's",
+    "description": "Neem of upload tot 5 duidelijke foto's van de boom om de diagnose te verbeteren (max 30 MB)",
+    "dropzone": {
+      "title": "Sleep uw afbeeldingen hier",
+      "description": "Of klik om door uw bestanden te bladeren",
+      "fileTypes": "JPG, PNG of GIF • Maximaal 5 foto's van 30 MB elk"
+    },
+    "buttons": {
+      "browse": "Bestanden zoeken",
+      "camera": "Foto maken"
+    },
+    "addMore": "Foto toevoegen",
+    "step": "Stap",
+    "of": "van"
   }
 }
