@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import DiagnosticHeader from "./DiagnosticHeader";
 import DiagnosticStepper from "./DiagnosticStepper";
@@ -10,7 +10,7 @@ import ApiKeyInput from "./ApiKeyInput";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ArrowLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { generateDiagnostic, isApiKeySet } from "@/services/openAIService";
+import { generateDiagnostic } from "@/services/openAIService";
 import { toast } from "@/hooks/use-toast";
 
 const defaultQuestions = [
@@ -75,12 +75,6 @@ const DiagnosticContainer = ({ className }: DiagnosticContainerProps) => {
   const questions = defaultQuestions;
   const totalSteps = questions.length + 2; // Questions + Image upload + Results
   
-  useEffect(() => {
-    if (!isApiKeySet()) {
-      setNeedsApiKey(true);
-    }
-  }, []);
-  
   const handleAnswer = (answer: string | string[]) => {
     setAnswers({ ...answers, [step]: answer });
     
@@ -100,11 +94,6 @@ const DiagnosticContainer = ({ className }: DiagnosticContainerProps) => {
   
   const handleNext = async () => {
     if (step === questions.length + 1) {
-      if (!isApiKeySet()) {
-        setNeedsApiKey(true);
-        return;
-      }
-      
       if (uploadedImages.length === 0) {
         toast({
           title: "Aucune image",
@@ -134,7 +123,7 @@ const DiagnosticContainer = ({ className }: DiagnosticContainerProps) => {
         console.error("Erreur lors de l'analyse:", error);
         toast({
           title: "Erreur lors de l'analyse",
-          description: "Une erreur est survenue pendant l'analyse. Veuillez réessayer ou configurer une nouvelle clé API.",
+          description: "Une erreur est survenue pendant l'analyse. Veuillez réessayer plus tard.",
           variant: "destructive"
         });
         setIsAnalyzing(false);
@@ -157,11 +146,6 @@ const DiagnosticContainer = ({ className }: DiagnosticContainerProps) => {
   
   const handleApiKeySet = () => {
     setNeedsApiKey(false);
-    toast({
-      title: "Clé API configurée",
-      description: "Votre clé API a été enregistrée avec succès. Vous pouvez maintenant continuer.",
-      duration: 3000,
-    });
   };
   
   const renderContent = () => {

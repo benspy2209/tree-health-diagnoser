@@ -1,16 +1,14 @@
-
 import { toast } from "@/hooks/use-toast";
 
-// Clé API définie par défaut pour l'application - à remplacer par une chaîne vide
-const DEFAULT_API_KEY = "";
+// Clé API définie par défaut pour l'application
+const DEFAULT_API_KEY = "sk-votre-clé-api-openai";
 
 // Récupérer la clé API du localStorage ou utiliser la clé par défaut
-let OPENAI_API_KEY = localStorage.getItem('openai_api_key') || DEFAULT_API_KEY;
+let OPENAI_API_KEY = DEFAULT_API_KEY;
 
+// Cette fonction n'est plus nécessaire pour les utilisateurs finaux mais conservée pour l'administration
 export const setOpenAIApiKey = (apiKey: string) => {
   OPENAI_API_KEY = apiKey;
-  // Sauvegarder la clé dans le localStorage pour la persistance
-  localStorage.setItem('openai_api_key', apiKey);
 };
 
 export const isApiKeySet = () => {
@@ -41,7 +39,7 @@ type Message = {
 export const generateDiagnostic = async (data: DiagnosticData): Promise<string> => {
   try {
     if (!OPENAI_API_KEY) {
-      throw new Error("Clé API OpenAI non définie. Veuillez configurer une clé API valide dans les paramètres.");
+      throw new Error("Erreur de configuration du système. Veuillez contacter l'administrateur.");
     }
 
     const { answers, questions, images } = data;
@@ -160,7 +158,7 @@ Objectif :
       const errorData = await response.json();
       const errorMessage = errorData.error?.message || response.statusText;
       console.error("Erreur API OpenAI:", errorMessage);
-      throw new Error(`Erreur API OpenAI: ${errorMessage}`);
+      throw new Error(`Une erreur est survenue lors de l'analyse. Veuillez réessayer plus tard.`);
     }
 
     const result = await response.json();
@@ -174,10 +172,10 @@ Objectif :
     console.error("Erreur lors de la génération du diagnostic:", error);
     toast({
       title: "Erreur lors de l'analyse",
-      description: error instanceof Error ? error.message : "Une erreur est survenue",
+      description: "Une erreur est survenue lors de l'analyse. Veuillez réessayer plus tard ou contacter directement un expert à info@plumridge.be.",
       variant: "destructive"
     });
-    return "Impossible de générer le diagnostic. Veuillez réessayer ou contacter directement un expert à info@plumridge.be.";
+    return "Impossible de générer le diagnostic. Veuillez réessayer plus tard ou contacter directement un expert à info@plumridge.be.";
   }
 };
 

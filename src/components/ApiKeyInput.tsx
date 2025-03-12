@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { motion } from "framer-motion";
@@ -10,15 +10,8 @@ interface ApiKeyInputProps {
   onKeySet: () => void;
 }
 
+// Ce composant ne sera plus affiché par défaut car nous utilisons une clé API par défaut
 const ApiKeyInput = ({ onKeySet }: ApiKeyInputProps) => {
-  // Vérifier si la clé est déjà définie lors du montage du composant
-  useEffect(() => {
-    if (isApiKeySet()) {
-      // Si la clé est déjà définie, appeler directement onKeySet pour continuer
-      onKeySet();
-    }
-  }, [onKeySet]);
-
   const [apiKey, setApiKey] = useState("");
   
   const handleSubmit = (e: React.FormEvent) => {
@@ -27,7 +20,7 @@ const ApiKeyInput = ({ onKeySet }: ApiKeyInputProps) => {
       setOpenAIApiKey(apiKey.trim());
       toast({
         title: "Clé API enregistrée",
-        description: "Votre clé API a été enregistrée avec succès pour cette session.",
+        description: "Votre clé API a été enregistrée avec succès.",
       });
       onKeySet();
     } else {
@@ -39,11 +32,6 @@ const ApiKeyInput = ({ onKeySet }: ApiKeyInputProps) => {
     }
   };
 
-  // Si la clé est déjà définie, ne pas rendre le composant
-  if (isApiKeySet()) {
-    return null;
-  }
-
   return (
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
@@ -54,7 +42,6 @@ const ApiKeyInput = ({ onKeySet }: ApiKeyInputProps) => {
       <h3 className="text-lg font-semibold mb-4">Configuration requise</h3>
       <p className="text-muted-foreground mb-4">
         Pour générer un diagnostic précis, veuillez entrer votre clé API OpenAI.
-        Cette clé ne sera utilisée que pour cette session et ne sera pas stockée.
       </p>
       
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -66,9 +53,6 @@ const ApiKeyInput = ({ onKeySet }: ApiKeyInputProps) => {
             placeholder="sk-..."
             className="w-full"
           />
-          <p className="text-xs text-muted-foreground">
-            Votre clé API sera utilisée uniquement pour générer le diagnostic.
-          </p>
         </div>
         
         <Button 
