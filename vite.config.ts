@@ -6,8 +6,8 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  // Configuration pour utiliser le sous-chemin '/diagnostic/'
-  base: '/diagnostic/',
+  // Configuration pour utiliser un sous-domaine (pas de sous-chemin)
+  base: '/',
   server: {
     host: "::",
     port: 8080,

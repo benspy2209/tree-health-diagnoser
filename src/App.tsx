@@ -4,8 +4,8 @@ import Index from './pages/Index';
 import NotFound from './pages/NotFound';
 import './App.css';
 
-// Configuration pour utiliser le sous-chemin '/diagnostic/'
-const BASE_PATH = '/diagnostic';
+// Configuration pour un sous-domaine (pas de sous-chemin)
+const BASE_PATH = '';
 
 function App() {
   return (
