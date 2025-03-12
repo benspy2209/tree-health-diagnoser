@@ -70,34 +70,24 @@ const DiagnosticResult = ({
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i].trim();
       
-      // Déterminer la section en fonction des titres habituels
-      if (line.toLowerCase().includes("rapport provisoire") || 
-          line.toLowerCase().includes("preliminary report") || 
-          line.toLowerCase().includes("voorlopig rapport")) {
+      // Déterminer la section en fonction des titres habituels - utiliser les clés de traduction
+      if (line.toLowerCase().includes(t("diagnostic.results.report.preliminary").toLowerCase())) {
         sections.title.push(<h1 key={`title-${i}`} className="text-2xl font-bold text-natural-leaf mb-4">{line}</h1>);
         currentSection = "title";
       } 
-      else if (line.toLowerCase().includes("analyse de l'arbre") || 
-               line.toLowerCase().includes("tree analysis") || 
-               line.toLowerCase().includes("boomanalyse")) {
+      else if (line.toLowerCase().includes(t("diagnostic.results.report.analysis").toLowerCase())) {
         sections.analysis.push(<h2 key={`analysis-${i}`} className="text-xl font-semibold text-natural-leaf mt-5 mb-3">{line}</h2>);
         currentSection = "analysis";
       } 
-      else if (line.toLowerCase().includes("diagnostic probable") || 
-               line.toLowerCase().includes("probable diagnosis") || 
-               line.toLowerCase().includes("waarschijnlijke diagnose")) {
+      else if (line.toLowerCase().includes(t("diagnostic.results.report.diagnosis").toLowerCase())) {
         sections.diagnosis.push(<h2 key={`diagnosis-${i}`} className="text-xl font-semibold text-natural-leaf mt-5 mb-3">{line}</h2>);
         currentSection = "diagnosis";
       } 
-      else if (line.toLowerCase().includes("recommandation") || 
-               line.toLowerCase().includes("recommendation") || 
-               line.toLowerCase().includes("aanbeveling")) {
+      else if (line.toLowerCase().includes(t("diagnostic.results.report.recommendations").toLowerCase())) {
         sections.recommendations.push(<h2 key={`recommendations-${i}`} className="text-xl font-semibold text-natural-leaf mt-5 mb-3">{line}</h2>);
         currentSection = "recommendations";
       } 
-      else if ((line.toLowerCase().includes("prochaine étape") || 
-                line.toLowerCase().includes("next step") || 
-                line.toLowerCase().includes("volgende stap"))) {
+      else if (line.toLowerCase().includes(t("diagnostic.results.report.nextSteps").toLowerCase())) {
         sections.nextSteps.push(<h2 key={`nextSteps-${i}`} className="text-xl font-semibold text-natural-leaf mt-5 mb-3">{line}</h2>);
         currentSection = "nextSteps";
       } 

@@ -126,6 +126,13 @@
           "Observeer de boom gedurende enkele dagen",
           "Raadpleeg een professional voor een diagnose ter plaatse"
         ]
+      },
+      "report": {
+        "preliminary": "Voorlopig Rapport",
+        "analysis": "Boomanalyse",
+        "diagnosis": "Waarschijnlijke Diagnose",
+        "recommendations": "Aanbevelingen",
+        "nextSteps": "Volgende Stappen"
       }
     }
   },

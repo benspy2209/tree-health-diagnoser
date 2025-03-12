@@ -126,6 +126,13 @@
           "Observe the tree over several days",
           "Consult a professional for an on-site diagnosis"
         ]
+      },
+      "report": {
+        "preliminary": "Preliminary Report",
+        "analysis": "Tree Analysis",
+        "diagnosis": "Probable Diagnosis",
+        "recommendations": "Recommendations",
+        "nextSteps": "Next Steps"
       }
     }
   },

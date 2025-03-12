@@ -126,6 +126,13 @@
           "Observez l'arbre sur plusieurs jours",
           "Consultez un professionnel pour un diagnostic sur place"
         ]
+      },
+      "report": {
+        "preliminary": "Rapport provisoire",
+        "analysis": "Analyse de l'arbre",
+        "diagnosis": "Diagnostic probable",
+        "recommendations": "Recommandations",
+        "nextSteps": "Prochaine étape"
       }
     }
   },
