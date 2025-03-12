@@ -1,8 +1,8 @@
 
 import { toast } from "@/hooks/use-toast";
 
-// Clé API définie par défaut pour l'application
-const DEFAULT_API_KEY = "sk-uJ9O8jpS6ZCcdfi-Shy3XyiZU3XkY0wuwFJsgURr9NT3BlbkFJdoqfSOAA0sC83YfM-dj2MTuy3a9NdyxOkv6dSS2_gA";
+// Clé API définie par défaut pour l'application - à remplacer par une chaîne vide
+const DEFAULT_API_KEY = "";
 
 // Récupérer la clé API du localStorage ou utiliser la clé par défaut
 let OPENAI_API_KEY = localStorage.getItem('openai_api_key') || DEFAULT_API_KEY;
@@ -41,7 +41,7 @@ type Message = {
 export const generateDiagnostic = async (data: DiagnosticData): Promise<string> => {
   try {
     if (!OPENAI_API_KEY) {
-      throw new Error("Clé API OpenAI non définie");
+      throw new Error("Clé API OpenAI non définie. Veuillez configurer une clé API valide dans les paramètres.");
     }
 
     const { answers, questions, images } = data;
@@ -158,7 +158,9 @@ Objectif :
 
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(`Erreur API OpenAI: ${errorData.error?.message || response.statusText}`);
+      const errorMessage = errorData.error?.message || response.statusText;
+      console.error("Erreur API OpenAI:", errorMessage);
+      throw new Error(`Erreur API OpenAI: ${errorMessage}`);
     }
 
     const result = await response.json();

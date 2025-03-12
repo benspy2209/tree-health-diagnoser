@@ -1,5 +1,4 @@
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import DiagnosticHeader from "./DiagnosticHeader";
 import DiagnosticStepper from "./DiagnosticStepper";
@@ -76,6 +75,12 @@ const DiagnosticContainer = ({ className }: DiagnosticContainerProps) => {
   const questions = defaultQuestions;
   const totalSteps = questions.length + 2; // Questions + Image upload + Results
   
+  useEffect(() => {
+    if (!isApiKeySet()) {
+      setNeedsApiKey(true);
+    }
+  }, []);
+  
   const handleAnswer = (answer: string | string[]) => {
     setAnswers({ ...answers, [step]: answer });
     
@@ -87,7 +92,6 @@ const DiagnosticContainer = ({ className }: DiagnosticContainerProps) => {
   const handleImageUpload = (files: File[]) => {
     if (files.length > 0) {
       setUploadedImages(prevImages => {
-        // Conserver uniquement les 5 premières images
         const newImages = [...prevImages, ...files];
         return newImages.slice(0, 5);
       });
@@ -95,11 +99,16 @@ const DiagnosticContainer = ({ className }: DiagnosticContainerProps) => {
   };
   
   const handleNext = async () => {
-    if (step === questions.length + 1) { // Si on est à l'étape d'upload d'image
+    if (step === questions.length + 1) {
+      if (!isApiKeySet()) {
+        setNeedsApiKey(true);
+        return;
+      }
+      
       if (uploadedImages.length === 0) {
         toast({
           title: "Aucune image",
-          description: "Veuillez télécharger au moins une image pour continuer",
+          description: "Veuillez télécharger au moins une image pour continuer ou revenir en arrière pour modifier vos réponses",
           variant: "destructive"
         });
         return;
@@ -125,7 +134,7 @@ const DiagnosticContainer = ({ className }: DiagnosticContainerProps) => {
         console.error("Erreur lors de l'analyse:", error);
         toast({
           title: "Erreur lors de l'analyse",
-          description: "Une erreur est survenue pendant l'analyse. Veuillez réessayer.",
+          description: "Une erreur est survenue pendant l'analyse. Veuillez réessayer ou configurer une nouvelle clé API.",
           variant: "destructive"
         });
         setIsAnalyzing(false);
@@ -148,7 +157,11 @@ const DiagnosticContainer = ({ className }: DiagnosticContainerProps) => {
   
   const handleApiKeySet = () => {
     setNeedsApiKey(false);
-    handleNext();
+    toast({
+      title: "Clé API configurée",
+      description: "Votre clé API a été enregistrée avec succès. Vous pouvez maintenant continuer.",
+      duration: 3000,
+    });
   };
   
   const renderContent = () => {
@@ -174,7 +187,6 @@ const DiagnosticContainer = ({ className }: DiagnosticContainerProps) => {
       }
       
       const determineStatus = () => {
-        // Fonction pour vérifier si une valeur ou un tableau contient certains mots clés
         const containsKeywords = (value: string | string[], keywords: string[]) => {
           if (Array.isArray(value)) {
             return value.some(item => 
