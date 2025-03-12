@@ -1,8 +1,11 @@
 
 import { motion } from "framer-motion";
 import DiagnosticContainer from "@/components/DiagnosticContainer";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 const Index = () => {
+  const { t } = useLanguage();
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -11,7 +14,7 @@ const Index = () => {
       className="min-h-screen flex flex-col bg-natural-light"
     >
       <main className="flex-1 py-8 px-4">
-        <h1 className="text-2xl font-bold text-center mb-8">Diagnostic de Santé des Arbres</h1>
+        <h1 className="text-2xl font-bold text-center mb-8">{t('title')}</h1>
         
         <div className="w-full max-w-4xl mx-auto">
           <DiagnosticContainer />
@@ -24,7 +27,7 @@ const Index = () => {
         transition={{ delay: 0.8, duration: 0.5 }}
         className="py-4 px-6 text-center text-sm text-muted-foreground"
       >
-        <p>© 2025 Diagnostic de Santé des Arbres - Tous droits réservés</p>
+        <p>{t('footer')}</p>
       </motion.footer>
     </motion.div>
   );

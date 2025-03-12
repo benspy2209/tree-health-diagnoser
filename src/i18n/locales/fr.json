@@ -1,0 +1,66 @@
+
+{
+  "title": "Diagnostic de Santé des Arbres",
+  "footer": "© 2025 Diagnostic de Santé des Arbres - Tous droits réservés",
+  "diagnostic": {
+    "location": {
+      "question": "Où se situe votre arbre ?",
+      "subtitle": "Localisation et Potentiel de Risque",
+      "options": {
+        "nearBuilding": "Proche d'une maison ou d'un bâtiment",
+        "nearRoad": "Proche d'une route ou zone fréquentée",
+        "isolated": "Dans un espace dégagé ou isolé",
+        "unknown": "Je ne sais pas"
+      }
+    },
+    "signs": {
+      "question": "L'arbre montre-t-il des signes inquiétants ?",
+      "subtitle": "Localisation et Potentiel de Risque",
+      "options": {
+        "yes": "Oui, signes préoccupants",
+        "no": "Non, mais je veux vérifier",
+        "unknown": "Je ne sais pas"
+      }
+    },
+    "problems": {
+      "question": "Quels problèmes avez-vous observés ?",
+      "subtitle": "Symptômes Observés",
+      "multiSelect": "Plusieurs choix possibles",
+      "options": {
+        "discoloredLeaves": "Feuilles décolorées",
+        "deadBranches": "Branches mortes ou cassées",
+        "fungi": "Champignons ou moisissures",
+        "cracks": "Fissures ou blessures",
+        "cavities": "Présence de cavités",
+        "leaning": "L'arbre penche",
+        "other": "Autre"
+      }
+    },
+    "duration": {
+      "question": "Depuis combien de temps ?",
+      "subtitle": "Symptômes Observés",
+      "options": {
+        "lessThanWeek": "Moins d'une semaine",
+        "oneToFourWeeks": "1 à 4 semaines",
+        "oneToSixMonths": "1 à 6 mois",
+        "moreThanSixMonths": "Plus de 6 mois",
+        "unknown": "Je ne sais pas"
+      }
+    },
+    "imageUpload": {
+      "title": "Pour un diagnostic plus précis, ajoutez :",
+      "instructions": {
+        "fullView": "Une vue complète de l'arbre",
+        "concernedAreas": "Une photo des zones concernées",
+        "details": "Si applicable : champignons, moisissures, cavités"
+      }
+    },
+    "analyzing": "Analyse en cours...",
+    "buttons": {
+      "previous": "Précédent",
+      "analyze": "Analyser",
+      "newDiagnostic": "Démarrer un nouveau diagnostic",
+      "backToSite": "Retour au site"
+    }
+  }
+}

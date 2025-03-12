@@ -1,0 +1,66 @@
+
+{
+  "title": "Boomgezondheidsdiagnose",
+  "footer": "© 2025 Boomgezondheidsdiagnose - Alle rechten voorbehouden",
+  "diagnostic": {
+    "location": {
+      "question": "Waar bevindt uw boom zich?",
+      "subtitle": "Locatie en Risicobeoordeling",
+      "options": {
+        "nearBuilding": "Dichtbij een huis of gebouw",
+        "nearRoad": "Dichtbij een weg of druk gebied",
+        "isolated": "In een open of geïsoleerde ruimte",
+        "unknown": "Ik weet het niet"
+      }
+    },
+    "signs": {
+      "question": "Vertoont de boom zorgwekkende tekenen?",
+      "subtitle": "Locatie en Risicobeoordeling",
+      "options": {
+        "yes": "Ja, zorgwekkende tekenen",
+        "no": "Nee, maar ik wil controleren",
+        "unknown": "Ik weet het niet"
+      }
+    },
+    "problems": {
+      "question": "Welke problemen heeft u waargenomen?",
+      "subtitle": "Waargenomen Symptomen",
+      "multiSelect": "Meerdere keuzes mogelijk",
+      "options": {
+        "discoloredLeaves": "Verkleurde bladeren",
+        "deadBranches": "Dode of gebroken takken",
+        "fungi": "Schimmels of schimmelgroei",
+        "cracks": "Scheuren of wonden",
+        "cavities": "Aanwezigheid van holtes",
+        "leaning": "De boom helt over",
+        "other": "Anders"
+      }
+    },
+    "duration": {
+      "question": "Hoe lang al?",
+      "subtitle": "Waargenomen Symptomen",
+      "options": {
+        "lessThanWeek": "Minder dan een week",
+        "oneToFourWeeks": "1 tot 4 weken",
+        "oneToSixMonths": "1 tot 6 maanden",
+        "moreThanSixMonths": "Meer dan 6 maanden",
+        "unknown": "Ik weet het niet"
+      }
+    },
+    "imageUpload": {
+      "title": "Voor een nauwkeurigere diagnose, voeg toe:",
+      "instructions": {
+        "fullView": "Een volledig beeld van de boom",
+        "concernedAreas": "Een foto van de betreffende gebieden",
+        "details": "Indien van toepassing: schimmels, schimmelgroei, holtes"
+      }
+    },
+    "analyzing": "Analyse bezig...",
+    "buttons": {
+      "previous": "Vorige",
+      "analyze": "Analyseren",
+      "newDiagnostic": "Start een nieuwe diagnose",
+      "backToSite": "Terug naar site"
+    }
+  }
+}

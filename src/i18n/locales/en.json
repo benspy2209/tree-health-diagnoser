@@ -1,0 +1,66 @@
+
+{
+  "title": "Tree Health Diagnosis",
+  "footer": "© 2025 Tree Health Diagnosis - All rights reserved",
+  "diagnostic": {
+    "location": {
+      "question": "Where is your tree located?",
+      "subtitle": "Location and Risk Assessment",
+      "options": {
+        "nearBuilding": "Near a house or building",
+        "nearRoad": "Near a road or frequented area",
+        "isolated": "In an open or isolated space",
+        "unknown": "I don't know"
+      }
+    },
+    "signs": {
+      "question": "Does the tree show concerning signs?",
+      "subtitle": "Location and Risk Assessment",
+      "options": {
+        "yes": "Yes, concerning signs",
+        "no": "No, but I want to check",
+        "unknown": "I don't know"
+      }
+    },
+    "problems": {
+      "question": "What problems have you observed?",
+      "subtitle": "Observed Symptoms",
+      "multiSelect": "Multiple choices possible",
+      "options": {
+        "discoloredLeaves": "Discolored leaves",
+        "deadBranches": "Dead or broken branches",
+        "fungi": "Fungi or mold",
+        "cracks": "Cracks or wounds",
+        "cavities": "Presence of cavities",
+        "leaning": "The tree is leaning",
+        "other": "Other"
+      }
+    },
+    "duration": {
+      "question": "For how long?",
+      "subtitle": "Observed Symptoms",
+      "options": {
+        "lessThanWeek": "Less than a week",
+        "oneToFourWeeks": "1 to 4 weeks",
+        "oneToSixMonths": "1 to 6 months",
+        "moreThanSixMonths": "More than 6 months",
+        "unknown": "I don't know"
+      }
+    },
+    "imageUpload": {
+      "title": "For a more accurate diagnosis, add:",
+      "instructions": {
+        "fullView": "A full view of the tree",
+        "concernedAreas": "A photo of the concerned areas",
+        "details": "If applicable: fungi, mold, cavities"
+      }
+    },
+    "analyzing": "Analysis in progress...",
+    "buttons": {
+      "previous": "Previous",
+      "analyze": "Analyze",
+      "newDiagnostic": "Start a new diagnosis",
+      "backToSite": "Back to site"
+    }
+  }
+}
