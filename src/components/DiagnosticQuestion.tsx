@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { QuestionOption } from "./diagnostic/QuestionOption";
 import { OtherOptionInput } from "./diagnostic/OtherOptionInput";
+import { Button } from "@/components/ui/button";
 
 interface DiagnosticQuestionProps {
   question: string;
@@ -167,6 +168,23 @@ const DiagnosticQuestion = ({
             handleMultiSelectionSubmit={handleMultiSelectionSubmit}
             handleOtherSubmit={handleOtherSubmit}
           />
+          
+          {multiSelect && selectedOptions.length > 0 && !selectedOptions.includes(otherOptionText) && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="mt-6"
+            >
+              <Button 
+                onClick={handleMultiSelectionSubmit}
+                className="bg-natural-leaf hover:bg-natural-leaf/90 text-white w-full"
+              >
+                {t("diagnostic.otherOption.validate")} ({selectedOptions.length} {selectedOptions.length > 1 
+                  ? t("diagnostic.otherOption.selections") 
+                  : t("diagnostic.otherOption.selection")})
+              </Button>
+            </motion.div>
+          )}
         </motion.div>
       </AnimatePresence>
     </motion.div>

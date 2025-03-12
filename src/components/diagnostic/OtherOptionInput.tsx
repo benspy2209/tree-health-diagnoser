@@ -53,7 +53,7 @@ export const OtherOptionInput = ({
         />
       </motion.div>
       
-      {multiSelect && selectedOptions.length > 0 && (
+      {multiSelect && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
