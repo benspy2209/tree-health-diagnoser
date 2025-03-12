@@ -33,7 +33,13 @@ export const LanguageProvider = ({ children }: LanguageProviderProps) => {
   const [language, setLanguage] = useState<Language>(getInitialLanguage);
 
   useEffect(() => {
+    // Mise à jour du localStorage
     localStorage.setItem('language', language);
+    
+    // Mise à jour du paramètre d'URL sans recharger la page
+    const url = new URL(window.location.href);
+    url.searchParams.set('lang', language);
+    window.history.replaceState({}, '', url.toString());
   }, [language]);
 
   const t = (key: string): string => {

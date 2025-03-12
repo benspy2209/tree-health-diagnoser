@@ -2,6 +2,7 @@
 import { motion } from "framer-motion";
 import DiagnosticContainer from "@/components/DiagnosticContainer";
 import { useLanguage } from "@/i18n/LanguageContext";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 
 const Index = () => {
   const { t } = useLanguage();
@@ -13,7 +14,11 @@ const Index = () => {
       transition={{ duration: 0.6 }}
       className="min-h-screen flex flex-col bg-natural-light"
     >
-      <main className="flex-1 py-8 px-4">
+      <header className="w-full flex justify-end p-4">
+        <LanguageSwitcher />
+      </header>
+      
+      <main className="flex-1 py-4 px-4">
         <h1 className="text-2xl font-bold text-center mb-8">{t('title')}</h1>
         
         <div className="w-full max-w-4xl mx-auto">
