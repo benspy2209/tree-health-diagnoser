@@ -1,9 +1,10 @@
 import { toast } from "@/hooks/use-toast";
 
 // Clé API définie par défaut pour l'application
+// Remplacez cette valeur par votre clé API OpenAI personnelle
 const DEFAULT_API_KEY = "sk-votre-clé-api-openai";
 
-// Récupérer la clé API du localStorage ou utiliser la clé par défaut
+// Utiliser directement la clé par défaut
 let OPENAI_API_KEY = DEFAULT_API_KEY;
 
 // Cette fonction n'est plus nécessaire pour les utilisateurs finaux mais conservée pour l'administration
@@ -12,7 +13,7 @@ export const setOpenAIApiKey = (apiKey: string) => {
 };
 
 export const isApiKeySet = () => {
-  return OPENAI_API_KEY.length > 0;
+  return OPENAI_API_KEY.length > 0 && OPENAI_API_KEY !== "sk-votre-clé-api-openai";
 };
 
 interface DiagnosticData {
@@ -38,7 +39,7 @@ type Message = {
 
 export const generateDiagnostic = async (data: DiagnosticData): Promise<string> => {
   try {
-    if (!OPENAI_API_KEY) {
+    if (!isApiKeySet()) {
       throw new Error("Erreur de configuration du système. Veuillez contacter l'administrateur.");
     }
 

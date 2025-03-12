@@ -6,12 +6,12 @@ import DiagnosticQuestion from "./DiagnosticQuestion";
 import ImageUploader from "./ImageUploader";
 import DiagnosticResult from "./DiagnosticResult";
 import AnalyzingState from "./AnalyzingState";
-import ApiKeyInput from "./ApiKeyInput";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ArrowLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { generateDiagnostic } from "@/services/openAIService";
+import { generateDiagnostic, isApiKeySet } from "@/services/openAIService";
 import { toast } from "@/hooks/use-toast";
+import ApiKeyInput from "./ApiKeyInput";
 
 const defaultQuestions = [
   {
@@ -70,7 +70,7 @@ const DiagnosticContainer = ({ className }: DiagnosticContainerProps) => {
   const [uploadedImages, setUploadedImages] = useState<File[]>([]);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [aiDiagnostic, setAiDiagnostic] = useState<string | null>(null);
-  const [needsApiKey, setNeedsApiKey] = useState(false);
+  const [needsApiKey, setNeedsApiKey] = useState(!isApiKeySet());
   
   const questions = defaultQuestions;
   const totalSteps = questions.length + 2; // Questions + Image upload + Results
@@ -98,6 +98,15 @@ const DiagnosticContainer = ({ className }: DiagnosticContainerProps) => {
         toast({
           title: "Aucune image",
           description: "Veuillez télécharger au moins une image pour continuer ou revenir en arrière pour modifier vos réponses",
+          variant: "destructive"
+        });
+        return;
+      }
+
+      if (!isApiKeySet()) {
+        toast({
+          title: "Configuration requise",
+          description: "Le système n'est pas correctement configuré. Veuillez contacter l'administrateur du site.",
           variant: "destructive"
         });
         return;
