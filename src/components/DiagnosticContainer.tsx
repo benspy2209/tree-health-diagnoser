@@ -4,12 +4,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import DiagnosticHeader from "./DiagnosticHeader";
 import DiagnosticStepper from "./DiagnosticStepper";
 import DiagnosticQuestion from "./DiagnosticQuestion";
-import ImageUploader from "./ImageUploader";
-import DiagnosticResult from "./DiagnosticResult";
 import AnalyzingState from "./AnalyzingState";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, ArrowLeft } from "lucide-react";
-import { cn } from "@/lib/utils";
 import { generateDiagnostic, isApiKeySet } from "@/services/openAIService";
 import { toast } from "@/hooks/use-toast";
 import { useLanguage } from "@/i18n/LanguageContext";
@@ -17,6 +13,7 @@ import { DiagnosticQuestions } from "./diagnostic/DiagnosticQuestions";
 import { DiagnosticNavigation } from "./diagnostic/DiagnosticNavigation";
 import { DiagnosticImageUpload } from "./diagnostic/DiagnosticImageUpload";
 import { useDiagnosticAnalysis } from "@/hooks/useDiagnosticAnalysis";
+import DiagnosticResult from "./DiagnosticResult";
 
 interface DiagnosticContainerProps {
   className?: string;
@@ -133,14 +130,24 @@ const DiagnosticContainer = ({ className }: DiagnosticContainerProps) => {
       
       const status = determineStatus();
       
+      // Fix type issue here: ensure recommendations is always a string array
+      const statusKey = `diagnostic.results.${status}.recommendations`;
+      let recommendations: string[] = [];
+      
+      const recommendationsValue = t(statusKey);
+      if (Array.isArray(recommendationsValue)) {
+        recommendations = recommendationsValue;
+      } else if (typeof recommendationsValue === 'string') {
+        // If it's a single string (not an array), wrap it in an array
+        recommendations = [recommendationsValue];
+      }
+      
       return (
         <DiagnosticResult
           status={status as "healthy" | "warning" | "danger" | "unknown"}
           title={t(`diagnostic.results.${status}.title`)}
           description={t(`diagnostic.results.${status}.description`)}
-          recommendations={Array.isArray(t(`diagnostic.results.${status}.recommendations`)) 
-            ? t(`diagnostic.results.${status}.recommendations`) 
-            : []}
+          recommendations={recommendations}
           onRestart={handleRestart}
         />
       );
@@ -168,7 +175,7 @@ const DiagnosticContainer = ({ className }: DiagnosticContainerProps) => {
   };
   
   return (
-    <div className={cn("w-full max-w-4xl mx-auto py-8 px-4", className)}>
+    <div className={className ? className : "w-full max-w-4xl mx-auto py-8 px-4"}>
       <DiagnosticHeader />
       
       <div className="py-6">
