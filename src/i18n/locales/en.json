@@ -3,6 +3,7 @@
   "title": "Tree Health Diagnosis",
   "footer": "© 2025 Tree Health Diagnosis - All rights reserved",
   "diagnostic": {
+    "subtitle": "Analyze the health of your trees with our intelligent diagnostic tool",
     "location": {
       "question": "Where is your tree located?",
       "subtitle": "Location and Risk Assessment",
@@ -61,6 +62,67 @@
       "analyze": "Analyze",
       "newDiagnostic": "Start a new diagnosis",
       "backToSite": "Back to site"
+    },
+    "otherOption": {
+      "placeholder": "Please specify...",
+      "validate": "Validate",
+      "selection": "selection",
+      "selections": "selections"
+    },
+    "errors": {
+      "noImage": {
+        "title": "No image",
+        "description": "Please upload at least one image to continue or go back to modify your answers"
+      },
+      "apiConfig": {
+        "title": "Configuration error",
+        "description": "The OpenAI API is not properly configured. Please contact the site administrator."
+      },
+      "analysis": {
+        "title": "Analysis error",
+        "description": "An error occurred during the analysis. Please try again later."
+      }
+    },
+    "results": {
+      "customTitle": "Your tree diagnosis",
+      "healthy": {
+        "title": "Your tree seems healthy",
+        "description": "Based on the information provided, your tree does not show signs of major problems.",
+        "recommendations": [
+          "Continue to water the tree regularly",
+          "Maintain mulch at the base of the tree",
+          "Monitor any changes in its appearance"
+        ]
+      },
+      "warning": {
+        "title": "Your tree needs attention",
+        "description": "Some signs indicate that your tree could be stressed or at the beginning of a disease.",
+        "recommendations": [
+          "Increase watering if the soil is dry",
+          "Check for pests more regularly",
+          "Consider light pruning of affected branches",
+          "Consult an arborist if symptoms persist"
+        ]
+      },
+      "danger": {
+        "title": "Your tree shows signs of disease",
+        "description": "Your tree has symptoms that require prompt intervention.",
+        "recommendations": [
+          "Quickly consult a professional arborist",
+          "Isolate the tree if possible to prevent spread",
+          "Avoid pruning or further stressing the tree",
+          "Take detailed photos of the symptoms for the expert"
+        ]
+      },
+      "unknown": {
+        "title": "Incomplete diagnosis",
+        "description": "We don't have enough information to establish a complete diagnosis.",
+        "recommendations": [
+          "Provide more information or photos",
+          "Observe the tree over several days",
+          "Consult a professional for an on-site diagnosis"
+        ]
+      }
     }
   }
 }

@@ -2,12 +2,15 @@
 import { motion } from "framer-motion";
 import { TreeDeciduous } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 interface DiagnosticHeaderProps {
   className?: string;
 }
 
 const DiagnosticHeader = ({ className }: DiagnosticHeaderProps) => {
+  const { t } = useLanguage();
+  
   return (
     <motion.header
       initial={{ opacity: 0, y: -20 }}
@@ -29,7 +32,7 @@ const DiagnosticHeader = ({ className }: DiagnosticHeaderProps) => {
         transition={{ delay: 0.3, duration: 0.5 }}
         className="text-3xl font-bold tracking-tight mb-2"
       >
-        Diagnostic de Santé des Arbres
+        {t("title")}
       </motion.h1>
       <motion.p
         initial={{ opacity: 0 }}
@@ -37,7 +40,7 @@ const DiagnosticHeader = ({ className }: DiagnosticHeaderProps) => {
         transition={{ delay: 0.4, duration: 0.5 }}
         className="text-muted-foreground max-w-md mx-auto"
       >
-        Analysez l'état de santé de vos arbres grâce à notre outil de diagnostic intelligent
+        {t("diagnostic.subtitle")}
       </motion.p>
     </motion.header>
   );

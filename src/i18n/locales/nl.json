@@ -3,6 +3,7 @@
   "title": "Boomgezondheidsdiagnose",
   "footer": "© 2025 Boomgezondheidsdiagnose - Alle rechten voorbehouden",
   "diagnostic": {
+    "subtitle": "Analyseer de gezondheid van uw bomen met ons intelligente diagnostische hulpmiddel",
     "location": {
       "question": "Waar bevindt uw boom zich?",
       "subtitle": "Locatie en Risicobeoordeling",
@@ -61,6 +62,67 @@
       "analyze": "Analyseren",
       "newDiagnostic": "Start een nieuwe diagnose",
       "backToSite": "Terug naar site"
+    },
+    "otherOption": {
+      "placeholder": "Specificeer...",
+      "validate": "Valideren",
+      "selection": "selectie",
+      "selections": "selecties"
+    },
+    "errors": {
+      "noImage": {
+        "title": "Geen afbeelding",
+        "description": "Upload minstens één afbeelding om door te gaan of ga terug om uw antwoorden te wijzigen"
+      },
+      "apiConfig": {
+        "title": "Configuratiefout",
+        "description": "De OpenAI API is niet correct geconfigureerd. Neem contact op met de sitebeheerder."
+      },
+      "analysis": {
+        "title": "Analysefout",
+        "description": "Er is een fout opgetreden tijdens de analyse. Probeer het later opnieuw."
+      }
+    },
+    "results": {
+      "customTitle": "Diagnose van uw boom",
+      "healthy": {
+        "title": "Uw boom lijkt gezond",
+        "description": "Op basis van de verstrekte informatie vertoont uw boom geen tekenen van grote problemen.",
+        "recommendations": [
+          "Blijf de boom regelmatig water geven",
+          "Houd mulch aan de voet van de boom",
+          "Houd veranderingen in het uiterlijk in de gaten"
+        ]
+      },
+      "warning": {
+        "title": "Uw boom heeft aandacht nodig",
+        "description": "Sommige tekenen wijzen erop dat uw boom gestrest zou kunnen zijn of aan het begin van een ziekte staat.",
+        "recommendations": [
+          "Verhoog het water geven als de grond droog is",
+          "Controleer regelmatiger op ongedierte",
+          "Overweeg lichte snoei van aangetaste takken",
+          "Raadpleeg een boomverzorger als symptomen aanhouden"
+        ]
+      },
+      "danger": {
+        "title": "Uw boom vertoont tekenen van ziekte",
+        "description": "Uw boom heeft symptomen die een snelle interventie vereisen.",
+        "recommendations": [
+          "Raadpleeg snel een professionele boomverzorger",
+          "Isoleer de boom indien mogelijk om verspreiding te voorkomen",
+          "Vermijd snoeien of de boom verder belasten",
+          "Maak gedetailleerde foto's van de symptomen voor de expert"
+        ]
+      },
+      "unknown": {
+        "title": "Onvolledige diagnose",
+        "description": "We hebben niet genoeg informatie om een volledige diagnose vast te stellen.",
+        "recommendations": [
+          "Verstrek meer informatie of foto's",
+          "Observeer de boom gedurende enkele dagen",
+          "Raadpleeg een professional voor een diagnose ter plaatse"
+        ]
+      }
     }
   }
 }

@@ -3,6 +3,7 @@
   "title": "Diagnostic de Santé des Arbres",
   "footer": "© 2025 Diagnostic de Santé des Arbres - Tous droits réservés",
   "diagnostic": {
+    "subtitle": "Analysez l'état de santé de vos arbres grâce à notre outil de diagnostic intelligent",
     "location": {
       "question": "Où se situe votre arbre ?",
       "subtitle": "Localisation et Potentiel de Risque",
@@ -61,6 +62,67 @@
       "analyze": "Analyser",
       "newDiagnostic": "Démarrer un nouveau diagnostic",
       "backToSite": "Retour au site"
+    },
+    "otherOption": {
+      "placeholder": "Précisez...",
+      "validate": "Valider",
+      "selection": "sélection",
+      "selections": "sélections"
+    },
+    "errors": {
+      "noImage": {
+        "title": "Aucune image",
+        "description": "Veuillez télécharger au moins une image pour continuer ou revenir en arrière pour modifier vos réponses"
+      },
+      "apiConfig": {
+        "title": "Erreur de configuration",
+        "description": "L'API OpenAI n'est pas correctement configurée. Veuillez contacter l'administrateur du site."
+      },
+      "analysis": {
+        "title": "Erreur lors de l'analyse",
+        "description": "Une erreur est survenue pendant l'analyse. Veuillez réessayer plus tard."
+      }
+    },
+    "results": {
+      "customTitle": "Diagnostic de votre arbre",
+      "healthy": {
+        "title": "Votre arbre semble en bonne santé",
+        "description": "D'après les informations fournies, votre arbre ne présente pas de signes de problèmes majeurs.",
+        "recommendations": [
+          "Continuez d'arroser régulièrement l'arbre",
+          "Maintenez un paillage au pied de l'arbre",
+          "Surveillez tout changement dans son apparence"
+        ]
+      },
+      "warning": {
+        "title": "Votre arbre nécessite de l'attention",
+        "description": "Certains signes indiquent que votre arbre pourrait être stressé ou en début de maladie.",
+        "recommendations": [
+          "Augmentez l'arrosage si le sol est sec",
+          "Vérifiez la présence de parasites plus régulièrement",
+          "Envisagez une taille légère des branches affectées",
+          "Consultez un arboriste si les symptômes persistent"
+        ]
+      },
+      "danger": {
+        "title": "Votre arbre présente des signes de maladie",
+        "description": "Votre arbre présente des symptômes qui nécessitent une intervention rapide.",
+        "recommendations": [
+          "Consultez rapidement un arboriste professionnel",
+          "Isolez l'arbre si possible pour éviter la propagation",
+          "Évitez de tailler ou de stresser davantage l'arbre",
+          "Prenez des photos détaillées des symptômes pour l'expert"
+        ]
+      },
+      "unknown": {
+        "title": "Diagnostic incomplet",
+        "description": "Nous n'avons pas assez d'informations pour établir un diagnostic complet.",
+        "recommendations": [
+          "Fournissez plus d'informations ou de photos",
+          "Observez l'arbre sur plusieurs jours",
+          "Consultez un professionnel pour un diagnostic sur place"
+        ]
+      }
     }
   }
 }
