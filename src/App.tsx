@@ -4,9 +4,8 @@ import Index from './pages/Index';
 import NotFound from './pages/NotFound';
 import './App.css';
 
-// Récupérer le chemin de base pour le déploiement
-// En développement, utiliser '' comme base, en production utiliser '/diagnostic'
-const BASE_PATH = import.meta.env.MODE === 'production' ? '/diagnostic' : '';
+// Pour Netlify, nous n'avons pas besoin de sous-chemin
+const BASE_PATH = '';
 
 function App() {
   return (

@@ -6,8 +6,8 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  // En développement, utiliser '/' comme base, en production utiliser '/diagnostic/'
-  base: mode === 'production' ? '/diagnostic/' : '/',
+  // Pour Netlify, nous n'avons pas besoin de sous-chemin comme '/diagnostic/'
+  base: '/',
   server: {
     host: "::",
     port: 8080,
