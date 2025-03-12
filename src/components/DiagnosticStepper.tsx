@@ -3,6 +3,7 @@ import { Dispatch, SetStateAction } from "react";
 import { motion } from "framer-motion";
 import { Check } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 interface DiagnosticStepperProps {
   currentStep: number;
@@ -18,6 +19,7 @@ const DiagnosticStepper = ({
   className,
 }: DiagnosticStepperProps) => {
   const steps = Array.from({ length: totalSteps }, (_, i) => i + 1);
+  const { t } = useLanguage();
 
   return (
     <motion.div
@@ -65,7 +67,7 @@ const DiagnosticStepper = ({
                   animate={{ opacity: 1, y: 0 }}
                   className="absolute top-full mt-2 left-1/2 transform -translate-x-1/2 whitespace-nowrap text-xs font-medium text-muted-foreground"
                 >
-                  Étape {step}/{totalSteps}
+                  {t("imageUploader.step")} {step}/{totalSteps}
                 </motion.span>
               )}
             </motion.div>

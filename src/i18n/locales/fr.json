@@ -124,5 +124,21 @@
         ]
       }
     }
+  },
+  "imageUploader": {
+    "title": "Téléchargez vos photos",
+    "description": "Prenez ou importez jusqu'à 5 photos claires de l'arbre pour améliorer le diagnostic (max 30 Mo)",
+    "dropzone": {
+      "title": "Déposez vos images ici",
+      "description": "Ou cliquez pour parcourir vos fichiers",
+      "fileTypes": "JPG, PNG ou GIF • Maximum 5 photos de 30 Mo chacune"
+    },
+    "buttons": {
+      "browse": "Parcourir les fichiers",
+      "camera": "Prendre une photo"
+    },
+    "addMore": "Ajouter une photo",
+    "step": "Étape",
+    "of": "sur"
   }
 }
